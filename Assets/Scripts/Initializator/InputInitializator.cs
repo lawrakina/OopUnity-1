@@ -1,14 +1,15 @@
 ﻿using Controller;
 using Data;
+using UnityEngine;
 
 
 namespace Initializator
 {
     public sealed class InputInitializator
     {
-        public InputInitializator(Services services)
+        public InputInitializator(MainController mainController, InputStruct inputVector)
         {
-            services.MainController.AddUpdated(new InputController(services));
+            mainController.AddUpdated(new InputController( inputVector));
         }
     }
 }

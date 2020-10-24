@@ -7,10 +7,10 @@ namespace Initializator
 {
     public class CameraInitializator
     {
-        public CameraInitializator(Services services, GameContext context, CameraView mainCamera)
+        public CameraInitializator(MainController mainController, PlayerData playerData, CameraView mainCamera)
         {
-            services.ThirdCameraController = new CameraController(mainCamera, context);
-            services.MainController.AddUpdated(services.ThirdCameraController);
+            var controller = new CameraController(playerData.PlayerStruct.Player, mainCamera);
+            mainController.AddUpdated(controller);
         }
     }
 }

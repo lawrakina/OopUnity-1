@@ -9,21 +9,22 @@ namespace Initializator
 {
     public sealed class PlayerInitializator
     {
-        public PlayerInitializator(Services services, GameContext gameContext)
+        public PlayerInitializator(MainController mainController, PlayerData playerData, InputStruct inputVector)
         {
-            var spawnerPlayer = Object.Instantiate(gameContext.PlayerData.PlayerStruct.StoragePlayer,
-                gameContext.PlayerData.PlayerStruct.StartPosition,
+            var spawnerPlayer = Object.Instantiate(playerData.PlayerStruct.StoragePlayer,
+                playerData.PlayerStruct.StartPosition,
                 Quaternion.identity);
 
             var playerModel = new PlayerModel()
             {
-                Speed = gameContext.PlayerData.PlayerStruct.Speed,
+                Speed = playerData.PlayerStruct.Speed,
             };
 
             var playerView = spawnerPlayer.GetComponent<PlayerView>();
-            gameContext.PlayerData.PlayerStruct.Player = playerView.gameObject;
+            playerData.PlayerStruct.Player = playerView.gameObject;
 
-            services.PlayerController = new PlayerController(services, gameContext, playerView, playerModel);
+            var controller = new PlayerController(playerView, playerModel, inputVector);
+            mainController.AddUpdated(controller);
         }
     }
 }

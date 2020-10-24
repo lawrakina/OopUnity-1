@@ -1,5 +1,4 @@
-﻿using Data;
-using Interface;
+﻿using Interface;
 using UnityEngine;
 using View;
 
@@ -11,7 +10,6 @@ namespace Controller
         #region Fields
     
         private CameraView _cameraView;
-        private GameContext _context;
         private Transform _target;
     
         #endregion
@@ -19,13 +17,11 @@ namespace Controller
         
         #region ctor
 
-        public CameraController(CameraView camera, GameContext context)
+        public CameraController(GameObject target, CameraView mainCamera)
         {
-            _cameraView = camera;
-            _context = context;
-            _target = context.PlayerData.PlayerStruct.Player.transform;
+            _cameraView = mainCamera;
+            _target = target.transform;
         }
-
 
         #endregion
 
@@ -34,9 +30,7 @@ namespace Controller
 
         public void UpdateTick()
         {
-            if (_target == null) return;
-            
-            _cameraView.transform.position = _target.position +  _cameraView._offSet;
+            _cameraView.transform.position = _target.position +  _cameraView.OffSet;
         }
 
         #endregion

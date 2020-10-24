@@ -7,7 +7,7 @@ namespace View
     {
         #region Fields
 
-        public Vector3 _offSet = new Vector3(0.0f, 18.0f, -8.0f);
+        public Vector3 OffSet = new Vector3(0.0f, 120.0f, -8.0f);
 
         #endregion
     }
