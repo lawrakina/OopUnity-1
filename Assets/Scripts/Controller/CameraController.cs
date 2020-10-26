@@ -17,10 +17,10 @@ namespace Controller
         
         #region ctor
 
-        public CameraController(GameObject target, CameraView mainCamera)
+        public CameraController(Transform target, CameraView mainCamera)
         {
             _cameraView = mainCamera;
-            _target = target.transform;
+            _target = target;
         }
 
         #endregion

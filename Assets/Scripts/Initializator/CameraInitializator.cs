@@ -9,7 +9,7 @@ namespace Initializator
     {
         public CameraInitializator(MainController mainController, PlayerData playerData, CameraView mainCamera)
         {
-            var controller = new CameraController(playerData.PlayerStruct.Player, mainCamera);
+            var controller = new CameraController(playerData.PlayerStruct.Player.transform, mainCamera);
             mainController.AddUpdated(controller);
         }
     }
