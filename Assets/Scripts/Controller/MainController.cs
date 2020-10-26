@@ -31,9 +31,14 @@ namespace Controller
             LayerManager.GroundLayer = _groundLayer;
 
             var inputVector = new UserInput();
-            new PlayerInitializator(this, _playerData, inputVector);
-            new CameraInitializator(this, _playerData, _mainCamera);
-            new InputInitializator(this, inputVector);
+            AddUpdated(PlayerInitializator.GetController(_playerData, inputVector));
+            AddUpdated(CameraInitializator.GetController(_playerData, _mainCamera));
+            AddUpdated(new InputController(inputVector));
+            
+            //For history 8-)
+            // new PlayerInitializator(this, _playerData, inputVector);
+            // new CameraInitializator(this, _playerData, _mainCamera);
+            // new InputInitializator(this, inputVector); 
         }
 
         private void Update()

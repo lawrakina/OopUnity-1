@@ -5,12 +5,11 @@ using View;
 
 namespace Initializator
 {
-    public class CameraInitializator
+    public static class CameraInitializator
     {
-        public CameraInitializator(MainController mainController, PlayerData playerData, CameraView mainCamera)
+        public static CameraController GetController(PlayerData playerData, CameraView mainCamera)
         {
-            var controller = new CameraController(playerData.PlayerStruct.Player.transform, mainCamera);
-            mainController.AddUpdated(controller);
+            return new CameraController(playerData.PlayerStruct.Player.transform, mainCamera);
         }
     }
 }

@@ -7,9 +7,9 @@ using View;
 
 namespace Initializator
 {
-    public sealed class PlayerInitializator
+    public static class PlayerInitializator
     {
-        public PlayerInitializator(MainController mainController, PlayerData playerData, UserInput userInputVector)
+        public static PlayerController GetController(PlayerData playerData, UserInput userInputVector)
         {
             var spawnerPlayer = Object.Instantiate(playerData.PlayerStruct.StoragePlayer,
                 playerData.PlayerStruct.StartPosition,
@@ -23,8 +23,7 @@ namespace Initializator
             var playerView = spawnerPlayer.GetComponent<PlayerView>();
             playerData.PlayerStruct.Player = playerView.gameObject;
 
-            var controller = new PlayerController(playerView, playerModel, userInputVector);
-            mainController.AddUpdated(controller);
+            return new PlayerController(playerView, playerModel, userInputVector);
         }
     }
 }
