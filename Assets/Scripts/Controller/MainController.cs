@@ -14,6 +14,7 @@ namespace Controller
         #region Fields
 
         private readonly List<IUpdated> _iUpdated = new List<IUpdated>();
+        private readonly List<ILateUpdated> _iLateUpdated = new List<ILateUpdated>();
 
         [SerializeField] private CameraView _mainCamera;
         [SerializeField] private PlayerData _playerData;
@@ -32,7 +33,7 @@ namespace Controller
 
             var inputVector = new UserInput();
             AddUpdated(PlayerInitializator.GetController(_playerData, inputVector));
-            AddUpdated(CameraInitializator.GetController(_playerData, _mainCamera));
+            AddLateUpdated(CameraInitializator.GetController(_playerData, _mainCamera));
             AddUpdated(new InputController(inputVector));
             
             //For history 8-)
@@ -57,6 +58,11 @@ namespace Controller
         public void AddUpdated(IUpdated controller)
         {
             _iUpdated.Add(controller);
+        }
+        
+        public void AddLateUpdated(ILateUpdated controller)
+        {
+            _iLateUpdated.Add(controller);
         }
 
         #endregion

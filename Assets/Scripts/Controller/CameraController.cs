@@ -5,7 +5,7 @@ using View;
 
 namespace Controller
 {
-    public sealed class CameraController: IUpdated
+    public sealed class CameraController: ILateUpdated
     {
         #region Fields
     
@@ -26,13 +26,13 @@ namespace Controller
         #endregion
 
         
-        #region IUpdated
+        #region ILateUpdated
 
-        public void UpdateTick()
+        #endregion
+
+        public void LateUpdateTick()
         {
             _cameraView.transform.position = _target.position +  _cameraView.OffSet;
         }
-
-        #endregion
     }
 }
