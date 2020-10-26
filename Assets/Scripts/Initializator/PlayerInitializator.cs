@@ -7,9 +7,10 @@ using View;
 
 namespace Initializator
 {
-    public static class PlayerInitializator
+    public class PlayerInitializator
     {
-        public static PlayerController GetController(PlayerData playerData, UserInput userInputVector)
+        public PlayerInitializator(MainController mainController, GameData gameData, PlayerData playerData,
+            UserInput userInputVector)
         {
             var spawnerPlayer = Object.Instantiate(playerData.PlayerStruct.StoragePlayer,
                 playerData.PlayerStruct.StartPosition,
@@ -17,13 +18,19 @@ namespace Initializator
 
             var playerModel = new PlayerModel()
             {
+                Live = gameData.GameStruct.CountLive,
+                CountCoins = gameData.GameStruct.CountCoins,
                 Speed = playerData.PlayerStruct.Speed,
             };
 
             var playerView = spawnerPlayer.GetComponent<PlayerView>();
             playerData.PlayerStruct.Player = playerView.gameObject;
 
-            return new PlayerController(playerView, playerModel, userInputVector);
+            var controller = new PlayerController(playerView, playerModel, userInputVector);
+            
+            mainController.AddEnabled(controller);// OnEnable and OnDisable
+            mainController.AddUpdated(controller);// Update
+            mainController.AddFixedUpdated(controller);//FixedUpdate
         }
     }
 }

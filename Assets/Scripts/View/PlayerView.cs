@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using Enum;
+using Interface;
+using UnityEngine;
 
 
 namespace View
 {
-    public sealed class PlayerView : MonoBehaviour
+    public sealed class PlayerView : MonoBehaviour, ICollision
     {
         #region Fields
 
@@ -14,6 +17,13 @@ namespace View
         #endregion
 
 
+        #region Events
+
+        public event Action<BonusType> OnBonusUp;
+
+        #endregion
+        
+
         #region UnityMethods
 
         private void Awake()
@@ -21,6 +31,16 @@ namespace View
             Transform = GetComponent<Transform>();
             Rigidbody = GetComponent<Rigidbody>();
             Collider = GetComponent<Collider>();
+        }
+
+        #endregion
+
+        
+        #region Methods
+
+        public void OnCollision(BonusType bonusType)
+        {
+            OnBonusUp?.Invoke(bonusType);
         }
 
         #endregion

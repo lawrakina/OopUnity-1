@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.79607844, g: 0.79607844, b: 0.79607844, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -2550,7 +2550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 713f3abe6c5b4b419ed9bee2da23297a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _offSet: {x: 0, y: 120, z: -8}
+  OffSet: {x: 0, y: 120, z: -8}
 --- !u!1 &1002423356
 GameObject:
   m_ObjectHideFlags: 0
@@ -2894,7 +2894,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a8f139c4199402b469d67b7b471b2a53, type: 2}
+  - {fileID: 2100000, guid: 81bf3b20d436c44409b23b300ea5f97b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3588,6 +3588,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 963194229}
   _playerData: {fileID: 11400000, guid: 77186b5453fb17942977e45fed768036, type: 2}
+  _gameData: {fileID: 11400000, guid: b80eb89d82c8ab44b9037085e5ad7ef8, type: 2}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -4616,3 +4617,72 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2071934734}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &4728832170622224733
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4728832170694749677, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.4865494
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728832170694749677, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728832170694749677, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10.960251
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728832170694749677, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728832170694749677, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728832170694749677, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728832170694749677, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728832170694749677, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728832170694749677, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728832170694749677, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728832170694749677, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728832170694749682, guid: dce99623b7f4b984ea71e537cd51cce3,
+        type: 3}
+      propertyPath: m_Name
+      value: Coin
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dce99623b7f4b984ea71e537cd51cce3, type: 3}

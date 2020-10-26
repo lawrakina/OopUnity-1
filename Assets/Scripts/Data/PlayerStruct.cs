@@ -9,7 +9,7 @@ namespace Data
     {
         public GameObject StoragePlayer;
         public Vector3 StartPosition;
-        [HideInInspector] public GameObject Player;
         public float Speed;
+        [HideInInspector] public GameObject Player;
     }
 }

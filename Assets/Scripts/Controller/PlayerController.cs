@@ -1,4 +1,7 @@
-﻿using Data;
+﻿using System;
+using System.Diagnostics;
+using Data;
+using Enum;
 using Healper;
 using Interface;
 using Model;
@@ -8,7 +11,7 @@ using View;
 
 namespace Controller
 {
-    public sealed class PlayerController : IUpdated
+    public sealed class PlayerController : IUpdated, IFixedUpdated, IEnabled
 
     {
         #region Fields
@@ -19,6 +22,7 @@ namespace Controller
         private UserInput _userInputVector;
         private Vector3 _direction;
         private float _gravityForce;
+        private float _deltaImpulce;
 
         #endregion
 
@@ -49,26 +53,82 @@ namespace Controller
 
         #region Methods
 
+        public void On()
+        {
+            _playerView.OnBonusUp += BonusUp;
+        }
+
+        public void Off()
+        {
+            _playerView.OnBonusUp -= BonusUp;
+        }
+        
         public void UpdateTick()
         {
             CheckGravity();
-            Move(_userInputVector.InputVector);
+
+            // CheckState();
         }
 
-        private void Move(Vector3 inputVector)
-        {
-            _direction = Vector3.ClampMagnitude(inputVector, 1f);
-            var movingVector = new Vector3(_direction.x, 0f, _direction.z);
+        // private void CheckState()
+        // {
+        //     switch (_model.StateUnit)
+        //     {
+        //         case StateUnit.Live:
+        //             break;
+        //         case StateUnit.Dead:
+        //             break;
+        //         case StateUnit.Finish:
+        //             break;
+        //         default:
+        //             throw new ArgumentOutOfRangeException();
+        //     }
+        // }
 
-            _playerView.Rigidbody.MovePosition(_playerView.Transform.position +
-                                               movingVector * (_model.Speed * Time.fixedDeltaTime));
-            _playerView.Rigidbody.AddForce(new Vector3(0f, _gravityForce * Time.fixedDeltaTime, 0f), ForceMode.Impulse);
+        public void FixedUpdateTick()
+        {
+            Move();
         }
 
         #endregion
-
+        
 
         #region PrivateMethods
+
+        private void BonusUp(BonusType obj)
+        {
+            switch (obj)
+            {
+                case BonusType.Coin:
+                    _model.CountCoins += 1;
+                    break;
+                case BonusType.ExtraLive:
+                    _model.Live += 1;
+                    break;
+                case BonusType.Bomb:
+                    _model.Live -= 1;
+                    break;
+                case BonusType.Finish:
+                    //todo реализовать обработку конца игры
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(obj), obj, null);
+            }
+        }
+        
+        private void Move()
+        {
+            //правильное скалярное умножение векторов
+            _direction = Vector3.ClampMagnitude(_userInputVector.InputVector, 1f);
+            var movingVector = new Vector3(_direction.x, 0f, _direction.z);
+            _deltaImpulce = _model.Speed * Time.fixedDeltaTime;
+            
+            _playerView.Rigidbody.AddForce(
+                movingVector.x * _deltaImpulce,
+                _gravityForce * Time.fixedDeltaTime,
+                movingVector.z * _deltaImpulce,
+                ForceMode.Impulse);
+        }
 
         private void CheckGravity()
         {
@@ -85,5 +145,6 @@ namespace Controller
         }
 
         #endregion
+
     }
 }
