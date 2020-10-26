@@ -7,9 +7,9 @@ namespace Initializator
 {
     public sealed class InputInitializator
     {
-        public InputInitializator(MainController mainController, InputStruct inputVector)
+        public InputInitializator(MainController mainController, UserInput userInputVector)
         {
-            mainController.AddUpdated(new InputController( inputVector));
+            mainController.AddUpdated(new InputController( userInputVector));
         }
     }
 }

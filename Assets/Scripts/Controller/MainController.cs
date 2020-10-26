@@ -30,7 +30,7 @@ namespace Controller
         {
             LayerManager.GroundLayer = _groundLayer;
 
-            var inputVector = new InputStruct();
+            var inputVector = new UserInput();
             new PlayerInitializator(this, _playerData, inputVector);
             new CameraInitializator(this, _playerData, _mainCamera);
             new InputInitializator(this, inputVector);

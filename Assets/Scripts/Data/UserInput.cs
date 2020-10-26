@@ -2,7 +2,7 @@
 
 namespace Data
 {
-    public class InputStruct
+    public class UserInput
     {
         public Vector3 InputVector;
     }

@@ -16,7 +16,7 @@ namespace Controller
         private PlayerView _playerView;
         private PlayerModel _model;
 
-        private InputStruct _inputVector;
+        private UserInput _userInputVector;
         private Vector3 _direction;
         private float _gravityForce;
 
@@ -37,11 +37,11 @@ namespace Controller
 
         #region ctor
 
-        public PlayerController(PlayerView playerView, PlayerModel playerModel, InputStruct inputVector)
+        public PlayerController(PlayerView playerView, PlayerModel playerModel, UserInput userInputVector)
         {
             _playerView = playerView;
             _model = playerModel;
-            _inputVector = inputVector;
+            _userInputVector = userInputVector;
         }
 
         #endregion
@@ -52,7 +52,7 @@ namespace Controller
         public void UpdateTick()
         {
             CheckGravity();
-            Move(_inputVector.InputVector);
+            Move(_userInputVector.InputVector);
         }
 
         private void Move(Vector3 inputVector)

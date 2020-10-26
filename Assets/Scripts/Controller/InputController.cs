@@ -9,16 +9,16 @@ namespace Controller
     {
         #region Fields
 
-        private readonly InputStruct _inputVector;
+        private readonly UserInput _userInputVector;
 
         #endregion
 
         
         #region ctor
 
-        public InputController(InputStruct inputVector)
+        public InputController(UserInput userInputVector)
         {
-            _inputVector = inputVector;
+            _userInputVector = userInputVector;
         }
 
         #endregion
@@ -32,7 +32,7 @@ namespace Controller
             //     UltimateJoystick.GetHorizontalAxis("Movement"),
             //     0.0f,
             //     UltimateJoystick.GetVerticalAxis("Movement"));
-             _inputVector.InputVector = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+             _userInputVector.InputVector = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
         }
 
         #endregion
