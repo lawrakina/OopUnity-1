@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Data;
 using Enum;
 using Healper;
@@ -30,9 +29,6 @@ namespace Controller
         #region Properties
 
         private bool IsGrounded =>
-            // RaycastHit hit;
-            // Debug.DrawRay(_player.transform.position + new Vector3(0.0f, 0.5f, 0.0f), Vector3.down, Color.red,
-            // _player.distanceToCheckGround);
             Physics.Raycast(_playerView.transform.position + Vector3.up / 2, Vector3.down, out _,
                 _model.DistanceToCheckGround, LayerManager.GroundLayer);
 
@@ -97,16 +93,17 @@ namespace Controller
 
         private void BonusUp(BonusType obj)
         {
+            Dbg.Log($"BonusUp:{obj}");
             switch (obj)
             {
                 case BonusType.Coin:
-                    _model.CountCoins += 1;
+                    _model.CountCoins.Value += 1;
                     break;
                 case BonusType.ExtraLive:
-                    _model.Live += 1;
+                    _model.Live.Value += 1;
                     break;
                 case BonusType.Bomb:
-                    _model.Live -= 1;
+                    _model.Live.Value -= 1;
                     break;
                 case BonusType.Finish:
                     //todo реализовать обработку конца игры
@@ -121,7 +118,7 @@ namespace Controller
             //правильное скалярное умножение векторов
             _direction = Vector3.ClampMagnitude(_userInputVector.InputVector, 1f);
             var movingVector = new Vector3(_direction.x, 0f, _direction.z);
-            _deltaImpulce = _model.Speed * Time.fixedDeltaTime;
+            _deltaImpulce = _model.Speed.Value * Time.fixedDeltaTime;
             
             _playerView.Rigidbody.AddForce(
                 movingVector.x * _deltaImpulce,

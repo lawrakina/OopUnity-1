@@ -1,4 +1,6 @@
-﻿using Enum;
+﻿using Data;
+using Enum;
+using Healper;
 
 
 namespace Model
@@ -14,9 +16,9 @@ namespace Model
         
         #region Properties
 
-        public float Speed { get; set; }
-        public int Live { get; set; }
-        public int CountCoins { get; set; }
+        public BoxFloat Speed { get; set; }
+        public BoxInt Live { get; set; }
+        public BoxInt CountCoins { get; set; }
         
         // public StateUnit StateUnit { get; set; }
 

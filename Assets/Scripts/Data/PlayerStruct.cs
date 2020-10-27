@@ -5,11 +5,12 @@ using UnityEngine;
 namespace Data
 {
     [Serializable]
-    public class PlayerStruct
+    public sealed class PlayerStruct
     {
         public GameObject StoragePlayer;
         public Vector3 StartPosition;
-        public float Speed;
+        public float speed = 100.0f;
+        public BoxFloat Speed { get; set; }
         [HideInInspector] public GameObject Player;
     }
 }

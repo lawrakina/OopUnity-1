@@ -7,7 +7,7 @@ using View;
 
 namespace Initializator
 {
-    public class PlayerInitializator
+    public sealed class PlayerInitializator
     {
         public PlayerInitializator(MainController mainController, GameData gameData, PlayerData playerData,
             UserInput userInputVector)
@@ -27,10 +27,10 @@ namespace Initializator
             playerData.PlayerStruct.Player = playerView.gameObject;
 
             var controller = new PlayerController(playerView, playerModel, userInputVector);
-            
-            mainController.AddEnabled(controller);// OnEnable and OnDisable
-            mainController.AddUpdated(controller);// Update
-            mainController.AddFixedUpdated(controller);//FixedUpdate
+
+            mainController.AddEnabled(controller); // OnEnable and OnDisable
+            mainController.AddUpdated(controller); // Update
+            mainController.AddFixedUpdated(controller); //FixedUpdate
         }
     }
 }

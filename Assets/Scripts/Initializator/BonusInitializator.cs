@@ -1,17 +1,16 @@
-using System.Collections.Generic;
 using Data;
 using UnityEngine;
 
 
 namespace Initializator
 {
-    internal class BonusInitializator
+    internal sealed class BonusInitializator
     {
         public BonusInitializator(GameData gameData)
         {
             var gameStruct = gameData.GameStruct;
             // var coins = new List<GameObject>();
-            for (int i = 0; i < gameStruct.CountCreateCoints; i++)
+            for (int i = 0; i < gameStruct.createCoins; i++)
             {
                 var coin = Object.Instantiate(gameStruct.StorageCoin,
                     GeneratePoint(gameStruct.PointZero, gameStruct.Lenght, gameStruct.Widht),

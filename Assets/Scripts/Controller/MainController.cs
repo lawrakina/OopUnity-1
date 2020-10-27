@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Data;
 using Healper;
 using Initializator;
@@ -35,16 +34,21 @@ namespace Controller
         {
             LayerManager.GroundLayer = _groundLayer;
 
+            InitGameData(_gameData, _playerData);
             var inputVector = new UserInput();
-            new PlayerInitializator(this,_gameData,  _playerData, inputVector);
+
+            new PlayerInitializator(this, _gameData, _playerData, inputVector);
             new BonusInitializator(_gameData);
             AddLateUpdated(CameraInitializator.GetController(_playerData, _mainCamera));
             AddUpdated(new InputController(inputVector));
+
+            new UiInitializator(this, _gameData, _playerData);
 
             //For history 8-)
             // new CameraInitializator(this, _playerData, _mainCamera);
             // new InputInitializator(this, inputVector); 
         }
+
 
         private void Update()
         {
@@ -100,17 +104,25 @@ namespace Controller
         {
             _iLateUpdated.Add(controller);
         }
-        
+
         public void AddFixedUpdated(IFixedUpdated controller)
         {
             _iFixedUpdated.Add(controller);
         }
 
-        #endregion
-
         public void AddEnabled(IEnabled controller)
         {
             _iEnabled.Add(controller);
         }
+        
+        private static void InitGameData(GameData gameData, PlayerData playerData)
+        {
+            gameData.GameStruct.CountCoins = new BoxInt() {Value = gameData.GameStruct.countCoins};
+            gameData.GameStruct.CountLive = new BoxInt() {Value = gameData.GameStruct.countLive};
+            gameData.GameStruct.CountNeedCoins = new BoxInt(){Value = gameData.GameStruct.countNeedCoins};
+            playerData.PlayerStruct.Speed = new BoxFloat(){Value = playerData.PlayerStruct.speed};
+        }
+
+        #endregion
     }
 }
