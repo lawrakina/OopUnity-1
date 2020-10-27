@@ -1,6 +1,4 @@
 ﻿using Data;
-using Enum;
-using Healper;
 
 
 namespace Model
@@ -11,15 +9,28 @@ namespace Model
 
         public readonly float DistanceToCheckGround = 1.0f;
 
+        private BoxInt _live;
+
         #endregion
 
-        
+
         #region Properties
 
         public BoxFloat Speed { get; set; }
-        public BoxInt Live { get; set; }
+
+        public BoxInt Live
+        {
+            get => _live;
+            set
+            {
+                if (!Immunity)
+                    _live = value;
+            }
+        }
+
         public BoxInt CountCoins { get; set; }
-        
+        public bool Immunity { get; set; }
+
         // public StateUnit StateUnit { get; set; }
 
         #endregion

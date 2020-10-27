@@ -16,5 +16,5 @@ MonoBehaviour:
     StoragePlayer: {fileID: 5686032666105939123, guid: 9bdc562c27d25254ea88292e433ab8c2,
       type: 3}
     StartPosition: {x: -45, y: 2, z: -45}
+    speed: 100
     Player: {fileID: 0}
-    Speed: 100

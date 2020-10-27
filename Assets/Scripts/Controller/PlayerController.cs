@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Controller.TimeRemaining;
 using Data;
 using Enum;
 using Healper;
@@ -22,10 +25,14 @@ namespace Controller
         private Vector3 _direction;
         private float _gravityForce;
         private float _deltaImpulce;
+        
+        private TimeRemaining.TimeRemaining _timerPainting;
+        private TimeRemaining.TimeRemaining _timerSpeedUp;
+        private TimeRemaining.TimeRemaining _timerImmunity;
 
         #endregion
 
-        
+
         #region Properties
 
         private bool IsGrounded =>
@@ -33,7 +40,7 @@ namespace Controller
                 _model.DistanceToCheckGround, LayerManager.GroundLayer);
 
         #endregion
-        
+
 
         #region ctor
 
@@ -42,6 +49,13 @@ namespace Controller
             _playerView = playerView;
             _model = playerModel;
             _userInputVector = userInputVector;
+
+            _timerPainting = new TimeRemaining.TimeRemaining(() => 
+                { _playerView.MeshRenderer.material.color = Color.white;}, 5.0f);
+            _timerSpeedUp = new TimeRemaining.TimeRemaining(() => 
+                { _model.Speed.Value /= 2; }, 5.0f);
+            _timerImmunity = new TimeRemaining.TimeRemaining(() => 
+                { _model.Immunity = false; }, 5.0f);
         }
 
         #endregion
@@ -58,7 +72,7 @@ namespace Controller
         {
             _playerView.OnBonusUp -= BonusUp;
         }
-        
+
         public void UpdateTick()
         {
             CheckGravity();
@@ -87,7 +101,7 @@ namespace Controller
         }
 
         #endregion
-        
+
 
         #region PrivateMethods
 
@@ -108,18 +122,34 @@ namespace Controller
                 case BonusType.Finish:
                     //todo реализовать обработку конца игры
                     break;
+                case BonusType.SpeedUp:
+                    _model.Speed.Value *= 2;
+                    _timerSpeedUp.AddTimeRemainingExecute();
+                    PaintToColor(Color.green);
+                    break;
+                case BonusType.Immunitet:
+                    _model.Immunity = true;
+                    _timerImmunity.AddTimeRemainingExecute();
+                    PaintToColor(Color.yellow);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(obj), obj, null);
             }
         }
-        
+
+        private void PaintToColor(Color color)
+        {
+            _playerView.MeshRenderer.material.color = color;
+            _timerPainting.AddTimeRemainingExecute();
+        }
+
         private void Move()
         {
             //правильное скалярное умножение векторов
             _direction = Vector3.ClampMagnitude(_userInputVector.InputVector, 1f);
             var movingVector = new Vector3(_direction.x, 0f, _direction.z);
             _deltaImpulce = _model.Speed.Value * Time.fixedDeltaTime;
-            
+
             _playerView.Rigidbody.AddForce(
                 movingVector.x * _deltaImpulce,
                 _gravityForce * Time.fixedDeltaTime,
@@ -142,6 +172,5 @@ namespace Controller
         }
 
         #endregion
-
     }
 }

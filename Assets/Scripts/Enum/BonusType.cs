@@ -5,6 +5,8 @@ namespace Enum
         Coin,
         ExtraLive,
         Bomb,
+        SpeedUp,
+        Immunitet,
         Finish
     }
 }

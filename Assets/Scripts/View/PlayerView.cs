@@ -13,6 +13,7 @@ namespace View
         public Transform Transform;
         public Collider Collider;
         public Rigidbody Rigidbody;
+        public MeshRenderer MeshRenderer;
 
         #endregion
 
@@ -31,6 +32,7 @@ namespace View
             Transform = GetComponent<Transform>();
             Rigidbody = GetComponent<Rigidbody>();
             Collider = GetComponent<Collider>();
+            MeshRenderer = GetComponent<MeshRenderer>();
         }
 
         #endregion
