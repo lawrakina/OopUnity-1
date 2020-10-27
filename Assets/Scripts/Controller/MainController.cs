@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Controller.TimeRemaining;
 using Data;
 using Healper;
 using Initializator;
@@ -39,10 +40,10 @@ namespace Controller
 
             new PlayerInitializator(this, _gameData, _playerData, inputVector);
             new BonusInitializator(_gameData);
+            new UiInitializator(this, _gameData, _playerData);
             AddLateUpdated(CameraInitializator.GetController(_playerData, _mainCamera));
             AddUpdated(new InputController(inputVector));
-
-            new UiInitializator(this, _gameData, _playerData);
+            AddUpdated(new TimeRemainingController());
 
             //For history 8-)
             // new CameraInitializator(this, _playerData, _mainCamera);
