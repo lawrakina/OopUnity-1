@@ -9,17 +9,16 @@ namespace Controller
     {
         #region Fields
 
-        private UnityEngine.Vector3 _inputVector;
-        private Services _services;
+        private readonly UserInput _userInputVector;
 
         #endregion
 
         
         #region ctor
 
-        public InputController(Services services)
+        public InputController(UserInput userInputVector)
         {
-            _services = services;
+            _userInputVector = userInputVector;
         }
 
         #endregion
@@ -33,8 +32,7 @@ namespace Controller
             //     UltimateJoystick.GetHorizontalAxis("Movement"),
             //     0.0f,
             //     UltimateJoystick.GetVerticalAxis("Movement"));
-             _inputVector = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-            _services.PlayerController.Move(_inputVector);
+             _userInputVector.InputVector = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
         }
 
         #endregion

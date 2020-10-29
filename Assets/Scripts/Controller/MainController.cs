@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Data;
+using Healper;
 using Initializator;
 using Interface;
 using UnityEngine;
@@ -18,9 +18,6 @@ namespace Controller
         [SerializeField] private CameraView _mainCamera;
         [SerializeField] private PlayerData _playerData;
 
-        [Header("Game Data")] private GameContext _context;
-        private Services _services;
-
         [Header("Game Layers")] [SerializeField]
         private LayerMask _groundLayer;
 
@@ -31,15 +28,17 @@ namespace Controller
 
         private void Awake()
         {
-            _services = new Services(this);
-            _context = new GameContext()
-            {
-                PlayerData = _playerData,
-                GroundLayer = _groundLayer,
-            };
-            new PlayerInitializator(_services, _context);
-            new CameraInitializator(_services, _context, _mainCamera);
-            new InputInitializator(_services);
+            LayerManager.GroundLayer = _groundLayer;
+
+            var inputVector = new UserInput();
+            AddUpdated(PlayerInitializator.GetController(_playerData, inputVector));
+            AddUpdated(CameraInitializator.GetController(_playerData, _mainCamera));
+            AddUpdated(new InputController(inputVector));
+            
+            //For history 8-)
+            // new PlayerInitializator(this, _playerData, inputVector);
+            // new CameraInitializator(this, _playerData, _mainCamera);
+            // new InputInitializator(this, inputVector); 
         }
 
         private void Update()
@@ -52,7 +51,7 @@ namespace Controller
 
         #endregion
 
-        
+
         #region Methods
 
         public void AddUpdated(IUpdated controller)

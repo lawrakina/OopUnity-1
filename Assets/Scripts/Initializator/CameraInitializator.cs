@@ -5,12 +5,11 @@ using View;
 
 namespace Initializator
 {
-    public class CameraInitializator
+    public static class CameraInitializator
     {
-        public CameraInitializator(Services services, GameContext context, CameraView mainCamera)
+        public static CameraController GetController(PlayerData playerData, CameraView mainCamera)
         {
-            services.ThirdCameraController = new CameraController(mainCamera, context);
-            services.MainController.AddUpdated(services.ThirdCameraController);
+            return new CameraController(playerData.PlayerStruct.Player.transform, mainCamera);
         }
     }
 }

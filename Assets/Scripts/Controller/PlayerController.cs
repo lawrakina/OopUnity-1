@@ -1,4 +1,5 @@
 ﻿using Data;
+using Healper;
 using Interface;
 using Model;
 using UnityEngine;
@@ -12,11 +13,10 @@ namespace Controller
     {
         #region Fields
 
-        private Services _services;
-        private GameContext _context;
         private PlayerView _playerView;
         private PlayerModel _model;
 
+        private UserInput _userInputVector;
         private Vector3 _direction;
         private float _gravityForce;
 
@@ -30,19 +30,18 @@ namespace Controller
             // Debug.DrawRay(_player.transform.position + new Vector3(0.0f, 0.5f, 0.0f), Vector3.down, Color.red,
             // _player.distanceToCheckGround);
             Physics.Raycast(_playerView.transform.position + Vector3.up / 2, Vector3.down, out _,
-                _model.DistanceToCheckGround, _context.GroundLayer);
+                _model.DistanceToCheckGround, LayerManager.GroundLayer);
 
         #endregion
         
 
         #region ctor
 
-        public PlayerController(Services services, GameContext gameContext, PlayerView view, PlayerModel model)
+        public PlayerController(PlayerView playerView, PlayerModel playerModel, UserInput userInputVector)
         {
-            _services = services;
-            _context = gameContext;
-            _playerView = view;
-            _model = model;
+            _playerView = playerView;
+            _model = playerModel;
+            _userInputVector = userInputVector;
         }
 
         #endregion
@@ -53,9 +52,10 @@ namespace Controller
         public void UpdateTick()
         {
             CheckGravity();
+            Move(_userInputVector.InputVector);
         }
 
-        public void Move(Vector3 inputVector)
+        private void Move(Vector3 inputVector)
         {
             _direction = Vector3.ClampMagnitude(inputVector, 1f);
             var movingVector = new Vector3(_direction.x, 0f, _direction.z);

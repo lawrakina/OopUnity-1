@@ -7,23 +7,23 @@ using View;
 
 namespace Initializator
 {
-    public sealed class PlayerInitializator
+    public static class PlayerInitializator
     {
-        public PlayerInitializator(Services services, GameContext gameContext)
+        public static PlayerController GetController(PlayerData playerData, UserInput userInputVector)
         {
-            var spawnerPlayer = Object.Instantiate(gameContext.PlayerData.PlayerStruct.StoragePlayer,
-                gameContext.PlayerData.PlayerStruct.StartPosition,
+            var spawnerPlayer = Object.Instantiate(playerData.PlayerStruct.StoragePlayer,
+                playerData.PlayerStruct.StartPosition,
                 Quaternion.identity);
 
             var playerModel = new PlayerModel()
             {
-                Speed = gameContext.PlayerData.PlayerStruct.Speed,
+                Speed = playerData.PlayerStruct.Speed,
             };
 
             var playerView = spawnerPlayer.GetComponent<PlayerView>();
-            gameContext.PlayerData.PlayerStruct.Player = playerView.gameObject;
+            playerData.PlayerStruct.Player = playerView.gameObject;
 
-            services.PlayerController = new PlayerController(services, gameContext, playerView, playerModel);
+            return new PlayerController(playerView, playerModel, userInputVector);
         }
     }
 }
