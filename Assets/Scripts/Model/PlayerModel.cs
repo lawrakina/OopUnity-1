@@ -15,7 +15,7 @@ namespace Model
 
 
         #region Properties
-
+        
         public BoxFloat Speed { get; set; }
 
         public BoxInt Live
@@ -30,6 +30,7 @@ namespace Model
 
         public BoxInt CountCoins { get; set; }
         public bool Immunity { get; set; }
+        public float NormalSpeed { get; set; }
 
         // public StateUnit StateUnit { get; set; }
 

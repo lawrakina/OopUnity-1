@@ -1,5 +1,4 @@
 using System;
-using Healper;
 using UnityEngine;
 
 
@@ -8,8 +7,7 @@ namespace Data
     [Serializable]
     public sealed class GameStruct
     {
-        [Header("For Inspector")]
-        public GameObject StorageCoin;
+        [Header("For Inspector")] public GameObject StorageCoin;
         public GameObject StorageBonusImmunity;
         public GameObject StorageBonusBomb;
         public GameObject StorageBonusSpeedUp;
@@ -23,8 +21,8 @@ namespace Data
         public int countNeedCoins = 10;
         public int countLive = 3;
         public int countCoins = 0;
-        public BoxInt CountNeedCoins { get; set;}
-        public BoxInt CountCoins { get; set;}
-        public BoxInt CountLive { get; set;}
+        public BoxInt CountNeedCoins { get; set; }
+        public BoxInt CountCoins { get; set; }
+        public BoxInt CountLive { get; set; }
     }
 }

@@ -1,10 +1,9 @@
-using Enum;
-
+using Model;
 
 namespace Interface
 {
     public interface ICollision
     {
-        void OnCollision(BonusType bonusType);
+        void OnCollision(InfoCollision infoCollision);
     }
 }

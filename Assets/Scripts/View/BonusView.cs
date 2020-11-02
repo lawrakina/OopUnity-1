@@ -1,28 +1,41 @@
 ﻿using Enum;
 using Healper;
 using Interface;
+using Model;
 using UnityEngine;
 
 
 namespace View
 {
-    public class BonusView : MonoBehaviour
+    public sealed class BonusView : InteractiveObject
     {
         #region fields
 
-        [SerializeField] private BonusType _bonusType;
+        [SerializeField] private InteractiveObjectType _interactiveObjectType;
+        [SerializeField] private int _value;
+        
 
         #endregion
         
         private void OnTriggerEnter(Collider other)
         {
-            Dbg.Log(other);
-            if (other.TryGetComponent(out ICollision obj))
+            if (other.CompareTag(StringManager.TAG_PLAYER) && other.TryGetComponent(out ICollision obj))
             {
-                Dbg.Log("Ok");
-                obj.OnCollision(_bonusType);
+                var info = new InfoCollision
+                {
+                    ObjectType = _interactiveObjectType,
+                    Value = _value,
+                    OtherName = gameObject.name
+                };
+                obj.OnCollision(info);
                 Destroy(gameObject);
             }
+        }
+
+        protected override void Interaction()
+        {
+            Dbg.Log($"BonusView.Name:{gameObject.name}, Interaction");
+            // throw new System.NotImplementedException();
         }
     }
 }

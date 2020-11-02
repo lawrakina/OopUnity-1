@@ -1,6 +1,7 @@
 ﻿using System;
 using Enum;
 using Interface;
+using Model;
 using UnityEngine;
 
 
@@ -20,7 +21,7 @@ namespace View
 
         #region Events
 
-        public event Action<BonusType> OnBonusUp;
+        public event Action<InfoCollision> OnBonusUp;
 
         #endregion
         
@@ -40,9 +41,9 @@ namespace View
         
         #region Methods
 
-        public void OnCollision(BonusType bonusType)
+        public void OnCollision(InfoCollision infoCollision)
         {
-            OnBonusUp?.Invoke(bonusType);
+            OnBonusUp?.Invoke(infoCollision);
         }
 
         #endregion

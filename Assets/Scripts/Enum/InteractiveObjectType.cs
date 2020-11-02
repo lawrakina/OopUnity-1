@@ -1,6 +1,6 @@
 namespace Enum
 {
-    public enum BonusType
+    public enum InteractiveObjectType
     {
         Coin,
         ExtraLive,

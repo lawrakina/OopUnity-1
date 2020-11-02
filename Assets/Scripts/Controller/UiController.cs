@@ -5,7 +5,7 @@ using View;
 
 namespace Controller
 {
-    public sealed class UiController: IUpdated
+    public sealed class UiController : IEnabled
     {
         #region Fields
 
@@ -25,15 +25,26 @@ namespace Controller
 
         #endregion
 
-
-        #region UnityMethods
-
-        public void UpdateTick()
+        public void On()
         {
-            _ui.LivesUiView.Count = _model.Lives.Value;
-            _ui.CoinsUiView.Text = $" {_model.Coins.Value}/{ _model.NeedCoins.Value}";
+            _model.Coins.EventChange += CoinsOnEventChange;
+            _model.Lives.EventChange += LivesOnEventChange;
         }
 
-        #endregion
+        public void Off()
+        {
+            _model.Coins.EventChange -= CoinsOnEventChange;
+            _model.Lives.EventChange -= LivesOnEventChange;
+        }
+
+        private void LivesOnEventChange()
+        {
+            _ui.LivesUiView.Count = _model.Lives.Value;
+        }
+
+        private void CoinsOnEventChange()
+        {
+            _ui.CoinsUiView.Text = $" {_model.Coins.Value}/{_model.NeedCoins.Value}";
+        }
     }
 }

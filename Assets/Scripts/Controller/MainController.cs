@@ -4,6 +4,7 @@ using Data;
 using Healper;
 using Initializator;
 using Interface;
+using Player;
 using UnityEngine;
 using View;
 
@@ -34,22 +35,31 @@ namespace Controller
         private void Awake()
         {
             LayerManager.GroundLayer = _groundLayer;
+            // var inputVector = new UserInput();
+            var inputInitialization = new InputInitialization();
+            var playerFactory = new PlayerFactory(_playerData);
+            var playerInitialization = new PlayerInitialization(playerFactory);
+            
+            
+            
+            // _playerData.PlayerStruct.Speed = new BoxFloat(){};
+            // _gameData.GameStruct.CountCoins = new BoxInt() {};
+            // _gameData.GameStruct.CountLive = new BoxInt() {};
+            // _gameData.GameStruct.CountNeedCoins = new BoxInt(){};
+            
+            // _playerData.PlayerStruct.Speed.Value = _playerData.PlayerStruct.speed;
+            // _gameData.GameStruct.CountCoins.Value = _gameData.GameStruct.countCoins;
+            // _gameData.GameStruct.CountLive.Value = _gameData.GameStruct.countLive;
+            // _gameData.GameStruct.CountNeedCoins.Value = _gameData.GameStruct.countNeedCoins;
 
-            InitGameData(_gameData, _playerData);
-            var inputVector = new UserInput();
-
-            new PlayerInitializator(this, _gameData, _playerData, inputVector);
+            // new PlayerInitializator(this, _gameData, _playerData, inputVector);
             new BonusInitializator(_gameData);
             new UiInitializator(this, _gameData, _playerData);
-            AddLateUpdated(CameraInitializator.GetController(_playerData, _mainCamera));
-            AddUpdated(new InputController(inputVector));
-            AddUpdated(new TimeRemainingController());
+            // AddLateUpdated(CameraInitializator.GetController(_playerData, _mainCamera));
+            // AddUpdated(new InputController(inputVector));
+            // AddUpdated(new TimeRemainingController());
 
-            //For history 8-)
-            // new CameraInitializator(this, _playerData, _mainCamera);
-            // new InputInitializator(this, inputVector); 
         }
-
 
         private void Update()
         {
@@ -114,14 +124,6 @@ namespace Controller
         public void AddEnabled(IEnabled controller)
         {
             _iEnabled.Add(controller);
-        }
-        
-        private static void InitGameData(GameData gameData, PlayerData playerData)
-        {
-            gameData.GameStruct.CountCoins = new BoxInt() {Value = gameData.GameStruct.countCoins};
-            gameData.GameStruct.CountLive = new BoxInt() {Value = gameData.GameStruct.countLive};
-            gameData.GameStruct.CountNeedCoins = new BoxInt(){Value = gameData.GameStruct.countNeedCoins};
-            playerData.PlayerStruct.Speed = new BoxFloat(){Value = playerData.PlayerStruct.speed};
         }
 
         #endregion

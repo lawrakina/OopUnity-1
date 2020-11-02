@@ -15,35 +15,6 @@ namespace Initializator
             InstantiateBonus(gameStruct.StorageBonusSpeedUp, gameStruct.createCountBonusSpeedUp);
             InstantiateBonus(gameStruct.StorageBonusImmunity, gameStruct.createCountBonusImmunity);
             InstantiateBonus(gameStruct.StorageBonusBomb, gameStruct.createCountBonusBomb);
-            // var coins = new List<GameObject>();
-            // for (int i = 0; i < gameStruct.createCountCoins; i++)
-            // {
-            //     var coin = Object.Instantiate(gameStruct.StorageCoin,
-            //         GeneratePoint(gameStruct.PointZero, gameStruct.Lenght, gameStruct.Widht),
-            //         Quaternion.identity);
-            //     // coins.Add(coin);
-            // }
-
-            // for (int i = 0; i < gameStruct.createBonusSpeedUp; i++)
-            // {
-            //     Object.Instantiate(gameStruct.StorageBonusSpeedUp,
-            //         GeneratePoint(gameStruct.PointZero, gameStruct.Lenght, gameStruct.Widht),
-            //         Quaternion.identity);
-            // }
-            //
-            // for (int i = 0; i < gameStruct.createBonusImmunity; i++)
-            // {
-            //     Object.Instantiate(gameStruct.StorageBonusImmunity,
-            //         GeneratePoint(gameStruct.PointZero, gameStruct.Lenght, gameStruct.Widht),
-            //         Quaternion.identity);
-            // }
-            //
-            // for (int i = 0; i < gameStruct.createBonusBomb; i++)
-            // {
-            //     Object.Instantiate(gameStruct.StorageBonusBomb,
-            //         GeneratePoint(gameStruct.PointZero, gameStruct.Lenght, gameStruct.Widht),
-            //         Quaternion.identity);
-            // }
         }
 
         private Vector3 GeneratePoint(Vector2 startPosition, float lenght, float widht)
@@ -62,6 +33,7 @@ namespace Initializator
                 var coin = Object.Instantiate(gameObject,
                     GeneratePoint(gameStruct.PointZero, gameStruct.Lenght, gameStruct.Widht),
                     Quaternion.identity);
+                coin.name = gameObject.name;
                 // coins.Add(coin);
             }
         }

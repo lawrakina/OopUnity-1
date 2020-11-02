@@ -8,14 +8,36 @@ namespace Data
     {
         public Vector3 InputVector;
     }
-    
+
     public sealed class BoxInt
     {
-        public int Value;
+        private int _value;
+        public delegate void ChangeValue();
+        public event ChangeValue EventChange;
+        public int Value
+        {
+            get => _value;
+            set
+            {
+                _value = value;
+                EventChange?.Invoke();
+            }
+        }
     }
 
     public sealed class BoxFloat
     {
-        public float Value;
+        private float _value;
+        public delegate void ChangeValue();
+        public event ChangeValue EventChangeValue;
+        public float Value
+        {
+            get => _value;
+            set
+            {
+                _value = value;
+                EventChangeValue?.Invoke();
+            }
+        }
     }
 }

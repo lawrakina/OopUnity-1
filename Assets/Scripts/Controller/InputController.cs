@@ -9,14 +9,14 @@ namespace Controller
     {
         #region Fields
 
-        private readonly UserInput _userInputVector;
+        private readonly Data.UserInput _userInputVector;
 
         #endregion
 
         
         #region ctor
 
-        public InputController(UserInput userInputVector)
+        public InputController(Data.UserInput userInputVector)
         {
             _userInputVector = userInputVector;
         }

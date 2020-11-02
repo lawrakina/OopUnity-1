@@ -21,10 +21,11 @@ namespace Controller
         private PlayerView _playerView;
         private PlayerModel _model;
 
-        private UserInput _userInputVector;
+        private Data.UserInput _userInputVector;
         private Vector3 _direction;
         private float _gravityForce;
         private float _deltaImpulce;
+        private float _standardTime = 5.0f;
         
         private TimeRemaining.TimeRemaining _timerPainting;
         private TimeRemaining.TimeRemaining _timerSpeedUp;
@@ -44,18 +45,15 @@ namespace Controller
 
         #region ctor
 
-        public PlayerController(PlayerView playerView, PlayerModel playerModel, UserInput userInputVector)
+        public PlayerController(PlayerView playerView, PlayerModel playerModel, Data.UserInput userInputVector)
         {
             _playerView = playerView;
             _model = playerModel;
             _userInputVector = userInputVector;
 
-            _timerPainting = new TimeRemaining.TimeRemaining(() => 
-                { _playerView.MeshRenderer.material.color = Color.white;}, 5.0f);
-            _timerSpeedUp = new TimeRemaining.TimeRemaining(() => 
-                { _model.Speed.Value /= 2; }, 5.0f);
-            _timerImmunity = new TimeRemaining.TimeRemaining(() => 
-                { _model.Immunity = false; }, 5.0f);
+            _timerPainting = TimerPainting(_standardTime);
+            _timerSpeedUp = TimerSpeedUp(_standardTime);
+            _timerImmunity = TimerImmunity(_standardTime);
         }
 
         #endregion
@@ -105,35 +103,36 @@ namespace Controller
 
         #region PrivateMethods
 
-        private void BonusUp(BonusType obj)
+        private void BonusUp(InfoCollision info)
         {
-            Dbg.Log($"BonusUp:{obj}");
-            switch (obj)
+            Dbg.Log($"BonusUp:{info.ObjectType}, value:{info.Value}, name:{info.OtherName}");
+            switch (info.ObjectType)
             {
-                case BonusType.Coin:
-                    _model.CountCoins.Value += 1;
+                case InteractiveObjectType.Coin:
+                    _model.CountCoins.Value += info.Value;
                     break;
-                case BonusType.ExtraLive:
-                    _model.Live.Value += 1;
+                case InteractiveObjectType.ExtraLive:
+                    _model.Live.Value += info.Value;
                     break;
-                case BonusType.Bomb:
-                    _model.Live.Value -= 1;
+                case InteractiveObjectType.Bomb:
+                    _model.Live.Value -= info.Value;
                     break;
-                case BonusType.Finish:
+                case InteractiveObjectType.Finish:
                     //todo реализовать обработку конца игры
                     break;
-                case BonusType.SpeedUp:
-                    _model.Speed.Value *= 2;
+                case InteractiveObjectType.SpeedUp:
+                    _model.Speed.Value *= info.Value;
                     _timerSpeedUp.AddTimeRemainingExecute();
                     PaintToColor(Color.green);
                     break;
-                case BonusType.Immunitet:
+                case InteractiveObjectType.Immunitet:
                     _model.Immunity = true;
+                    _timerImmunity = TimerImmunity(info.Value);
                     _timerImmunity.AddTimeRemainingExecute();
                     PaintToColor(Color.yellow);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(obj), obj, null);
+                    throw new ArgumentOutOfRangeException(nameof(info), info, null);
             }
         }
 
@@ -169,6 +168,28 @@ namespace Controller
             }
 
             _direction.y = _gravityForce;
+        }
+        
+
+        private TimeRemaining.TimeRemaining TimerPainting(float time)
+        {
+            return new TimeRemaining.TimeRemaining(() => 
+                { _playerView.MeshRenderer.material.color = Color.white;}, time);
+        }
+
+        private TimeRemaining.TimeRemaining TimerSpeedUp(float time)
+        {
+            return new TimeRemaining.TimeRemaining(() =>
+            {
+                Dbg.Log($"_model.NormalSpeed:{_model.NormalSpeed}");
+                _model.Speed.Value = _model.NormalSpeed;
+            }, time);
+        }
+
+        private TimeRemaining.TimeRemaining TimerImmunity(float time)
+        {
+            return new TimeRemaining.TimeRemaining(() => 
+                { _model.Immunity = false; }, time);
         }
 
         #endregion
