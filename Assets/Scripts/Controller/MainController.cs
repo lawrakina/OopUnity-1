@@ -40,9 +40,14 @@ namespace Controller
             var playerFactory = new PlayerFactory(_playerData);
             var playerInitialization = new PlayerInitialization(playerFactory);
             
-            
-            
-            // _playerData.PlayerStruct.Speed = new BoxFloat(){};
+            //todo добавить:
+            1) класс контроллер
+                2) контроллер врагов
+                    3) контроллер бонусов
+                        4) gui экран победы и поражения
+                            5) счетчики coins&live
+
+                // _playerData.PlayerStruct.Speed = new BoxFloat(){};
             // _gameData.GameStruct.CountCoins = new BoxInt() {};
             // _gameData.GameStruct.CountLive = new BoxInt() {};
             // _gameData.GameStruct.CountNeedCoins = new BoxInt(){};
