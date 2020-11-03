@@ -7,16 +7,21 @@ using UnityEngine;
 
 namespace View
 {
-    public sealed class BonusView : InteractiveObject
+    public sealed class BonusView : InteractiveObject, IBonusView
     {
         #region fields
 
         [SerializeField] private InteractiveObjectType _interactiveObjectType;
-        [SerializeField] private int _value;
-        
+        [SerializeField] private int                   _value;
 
         #endregion
-        
+
+        public void Init(InteractiveObjectType type, int value)
+        {
+            _interactiveObjectType = type;
+            _value = value;
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag(StringManager.TAG_PLAYER) && other.TryGetComponent(out ICollision obj))

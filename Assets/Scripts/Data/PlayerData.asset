@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bff94092cad46d9ac5816250a833c50, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  PlayerStruct:
-    StoragePlayer: {fileID: 5686032666105939123, guid: 9bdc562c27d25254ea88292e433ab8c2,
-      type: 3}
-    StartPosition: {x: -45, y: 2, z: -45}
-    speed: 100
-    Player: {fileID: 0}
+  StoragePlayer: {fileID: 5686032666105939123, guid: 9bdc562c27d25254ea88292e433ab8c2,
+    type: 3}
+  StartPosition: {x: -46.43, y: 2, z: -45.37}
+  _speed: 100

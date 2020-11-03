@@ -1,33 +1,32 @@
 using System.Collections.Generic;
 using Interface;
-using UnityEngine;
+
 
 namespace Controller.TimeRemaining
 {
-    public sealed class TimeRemainingController : IUpdated
+    public sealed class TimeRemainingController : IExecute
     {
         #region Fields
-        
+
         private readonly List<ITimeRemaining> _timeRemainingsExecute;
-        
+
         #endregion
 
-        
+
         #region ClassLifeCycles
 
         public TimeRemainingController()
         {
             _timeRemainingsExecute = TimeRemainingExtensions.TimeRemainings;
         }
-        
+
         #endregion
 
-        
+
         #region IExecute
 
-        public void UpdateTick()
+        public void Execute(float time)
         {
-            var time = Time.deltaTime;
             for (var i = 0; i < _timeRemainingsExecute.Count; i++)
             {
                 var obj = _timeRemainingsExecute[i];
@@ -46,7 +45,7 @@ namespace Controller.TimeRemaining
                 }
             }
         }
-        
+
         #endregion
     }
 }

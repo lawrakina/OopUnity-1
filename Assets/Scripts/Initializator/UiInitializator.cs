@@ -18,7 +18,7 @@ namespace Initializator
                 NeedCoins = gameData.GameStruct.CountNeedCoins
             };
             var controller = new UiController(uiInterface, uiModel);
-            mainController.AddEnabled(controller);
+            // mainController.AddEnabled(controller);
         }
     }
 }

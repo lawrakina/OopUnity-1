@@ -1,6 +1,9 @@
+using Controller;
+
+
 namespace Interface
 {
-    public interface IInitialization
+    public interface IInitialization : IController
     {
         void Initialization();
     }

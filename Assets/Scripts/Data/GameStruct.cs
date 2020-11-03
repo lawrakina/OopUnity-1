@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using UnityEngine;
 
 
@@ -7,20 +8,21 @@ namespace Data
     [Serializable]
     public sealed class GameStruct
     {
-        [Header("For Inspector")] public GameObject StorageCoin;
-        public GameObject StorageBonusImmunity;
-        public GameObject StorageBonusBomb;
-        public GameObject StorageBonusSpeedUp;
-        public Vector2 PointZero = Vector2.zero;
-        public float Lenght = 50.0f;
-        public float Widht = 50.0f;
-        public int createCountCoins = 50;
-        public int createCountBonusSpeedUp = 5;
-        public int createCountBonusImmunity = 5;
-        public int createCountBonusBomb = 20;
+        [SerializeField] private Vector2 _pointZero = Vector2.zero;
+        [SerializeField] private float _lenght = 50.0f;
+        [SerializeField] private float _widht = 50.0f;
         public int countNeedCoins = 10;
         public int countLive = 3;
         public int countCoins = 0;
+        
+        
+        [Description("x - StartPoint.X,\ny - StartPoint.Y,\nz - Lendht,\nw - Wight")]
+        public Vector4 SizeOfPlatform =>
+            new Vector4(_pointZero.x,
+                _pointZero.y,
+                _lenght,
+                _widht);
+        
         public BoxInt CountNeedCoins { get; set; }
         public BoxInt CountCoins { get; set; }
         public BoxInt CountLive { get; set; }

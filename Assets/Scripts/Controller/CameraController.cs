@@ -5,7 +5,7 @@ using View;
 
 namespace Controller
 {
-    public sealed class CameraController: ILateUpdated
+    public sealed class CameraController:IController, ILateUpdated
     {
         #region Fields
     

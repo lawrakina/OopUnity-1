@@ -3777,6 +3777,8 @@ MonoBehaviour:
   _mainCamera: {fileID: 963194229}
   _playerData: {fileID: 11400000, guid: 77186b5453fb17942977e45fed768036, type: 2}
   _gameData: {fileID: 11400000, guid: b80eb89d82c8ab44b9037085e5ad7ef8, type: 2}
+  _bonusData: {fileID: 11400000, guid: 5443b98c069132945882c7d39d460dc2, type: 2}
+  _enemyData: {fileID: 11400000, guid: 088ca7e226b095c449b89366f248f7a6, type: 2}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 256

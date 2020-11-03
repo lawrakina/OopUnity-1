@@ -1,40 +1,44 @@
-﻿using Data;
-using Interface;
-using UnityEngine;
+﻿using Interface;
 
 
 namespace Controller
 {
-    public sealed class InputController : IUpdated
+    public sealed class InputController :IController, IExecute
     {
         #region Fields
 
-        private readonly Data.UserInput _userInputVector;
+        private readonly IUserInputProxy _horizontal;
+        private readonly IUserInputProxy _vertical;
 
         #endregion
 
         
-        #region ctor
+        #region Ctor
 
-        public InputController(Data.UserInput userInputVector)
+        public InputController((IUserInputProxy inputHorizontal, IUserInputProxy inputVertical) input)
         {
-            _userInputVector = userInputVector;
+            _horizontal = input.inputHorizontal;
+            _vertical = input.inputVertical;
+        }
+
+        #endregion
+
+
+        #region UnityMethods
+
+        public void Execute(float deltaTime)
+        {
+            _horizontal.GetAxis();
+            _vertical.GetAxis();
         }
 
         #endregion
         
         
-        #region IUdpatable
-
-        public void UpdateTick()
-        {
-            // _inputVector = new Vector3(
-            //     UltimateJoystick.GetHorizontalAxis("Movement"),
-            //     0.0f,
-            //     UltimateJoystick.GetVerticalAxis("Movement"));
-             _userInputVector.InputVector = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-        }
-
-        #endregion
+        // _inputVector = new Vector3(
+        //     UltimateJoystick.GetHorizontalAxis("Movement"),
+        //     0.0f,
+        //     UltimateJoystick.GetVerticalAxis("Movement"));
+        // _userInputVector.InputVector = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
     }
 }

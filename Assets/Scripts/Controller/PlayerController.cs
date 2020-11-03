@@ -13,7 +13,7 @@ using View;
 
 namespace Controller
 {
-    public sealed class PlayerController : IUpdated, IFixedUpdated, IEnabled
+    public sealed class PlayerController :IController, IExecute, IFixedExecute, IEnabled, ICleanup
 
     {
         #region Fields
@@ -71,29 +71,17 @@ namespace Controller
             _playerView.OnBonusUp -= BonusUp;
         }
 
-        public void UpdateTick()
+        public void Execute(float deltaTime)
         {
             CheckGravity();
-
-            // CheckState();
         }
 
-        // private void CheckState()
-        // {
-        //     switch (_model.StateUnit)
-        //     {
-        //         case StateUnit.Live:
-        //             break;
-        //         case StateUnit.Dead:
-        //             break;
-        //         case StateUnit.Finish:
-        //             break;
-        //         default:
-        //             throw new ArgumentOutOfRangeException();
-        //     }
-        // }
+        public void Cleanup()
+        {
+            throw new NotImplementedException();
+        }
 
-        public void FixedUpdateTick()
+        public void FixedExecute()
         {
             Move();
         }
@@ -193,5 +181,6 @@ namespace Controller
         }
 
         #endregion
+
     }
 }
