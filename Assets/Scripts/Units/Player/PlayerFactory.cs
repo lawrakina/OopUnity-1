@@ -26,14 +26,14 @@ namespace Units.Player
         #endregion
 
         
-        public Transform CreatePlayer()
+        public IPlayerView CreatePlayer()
         {
             var player = Object.Instantiate(_playerData.StoragePlayer);
             player.name = $"Player";
             player.AddSphereCollider(radius:0.5f)
                 .AddRigitBody(mass: 1, CollisionDetectionMode.Continuous)
                 .AddCode<PlayerView>();
-            return player.transform;
+            return player.GetComponent<IPlayerView>();
         }
     }
 }

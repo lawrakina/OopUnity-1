@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Interface;
+using UnityEngine;
 
 
 namespace Controller
@@ -79,11 +80,11 @@ namespace Controller
             }
         }
 
-        public void FixedExecute()
+        public void FixedExecute(float deltaTime)
         {
             for (var index = 0; index < _executeControllers.Count; ++index)
             {
-                _fixedControllers[index].FixedExecute();
+                _fixedControllers[index].FixedExecute(deltaTime);
             }
         }
         

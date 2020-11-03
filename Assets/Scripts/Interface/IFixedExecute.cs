@@ -2,6 +2,6 @@ namespace Interface
 {
     public interface IFixedExecute
     {
-        void FixedExecute();
+        void FixedExecute(float deltaTime);
     }
 }

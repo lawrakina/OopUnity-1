@@ -1,4 +1,5 @@
 using Interface;
+using Units.Player;
 using UnityEngine;
 
 
@@ -7,7 +8,7 @@ namespace Initializator
     public sealed class PlayerInitialization : IInitialization
     {
         private readonly IPlayerFactory _playerFactory;
-        private          Transform      _player;
+        private          IPlayerView _player;
 
         public PlayerInitialization(IPlayerFactory playerFactory)
         {
@@ -19,7 +20,7 @@ namespace Initializator
         {
         }
 
-        public Transform GetPlayer()
+        public IPlayerView GetPlayer()
         {
             return _player;
         }

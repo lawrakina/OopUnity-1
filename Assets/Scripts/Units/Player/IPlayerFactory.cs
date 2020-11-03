@@ -1,10 +1,10 @@
-using UnityEngine;
+using Units.Player;
 
 
 namespace Interface
 {
     public interface IPlayerFactory
     {
-        Transform CreatePlayer();
+        IPlayerView CreatePlayer();
     }
 }

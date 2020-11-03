@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Bonus;
 using Controller.TimeRemaining;
 using Data;
@@ -15,11 +16,6 @@ namespace Controller
     public sealed class MainController : MonoBehaviour
     {
         #region Fields
-
-        // private readonly List<IExecute>      _iUpdated      = new List<IExecute>();
-        // private readonly List<ILateUpdated>  _iLateUpdated  = new List<ILateUpdated>();
-        // private readonly List<IFixedExecute> _iFixedUpdated = new List<IFixedExecute>();
-        // private readonly List<IEnabled>      _iEnabled      = new List<IEnabled>();
 
         private Controllers _controllers;
 
@@ -59,7 +55,7 @@ namespace Controller
             _controllers.Add(new MoveController(inputInitialization.GetInput(), playerInitialization.GetPlayer(),
                 _playerData));
             // _controllers.Add(new EnemyMoveController(enemyInitialization.GetEnemy(), playerInitialization.GetPlayer()));
-            _controllers.Add(new CameraController(playerInitialization.GetPlayer(), _mainCamera));
+            _controllers.Add(new CameraController(playerInitialization.GetPlayer().Transform(), _mainCamera));
             _controllers.Initialization();
 
             //todo добавить:
@@ -95,6 +91,12 @@ namespace Controller
         {
             var deltaTime = Time.deltaTime;
             _controllers.LateExecute(deltaTime);
+        }
+
+        private void FixedUpdate()
+        {
+            var deltaTime = Time.fixedDeltaTime;
+            _controllers.FixedExecute(deltaTime);
         }
 
         private void OnDestroy()

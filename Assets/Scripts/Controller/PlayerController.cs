@@ -126,7 +126,7 @@ namespace Controller
 
         private void PaintToColor(Color color)
         {
-            _playerView.MeshRenderer.material.color = color;
+            _playerView.MeshRenderer().material.color = color;
             _timerPainting.AddTimeRemainingExecute();
         }
 
@@ -137,7 +137,7 @@ namespace Controller
             var movingVector = new Vector3(_direction.x, 0f, _direction.z);
             _deltaImpulce = _model.Speed.Value * Time.fixedDeltaTime;
 
-            _playerView.Rigidbody.AddForce(
+            _playerView.Rigidbody().AddForce(
                 movingVector.x * _deltaImpulce,
                 _gravityForce * Time.fixedDeltaTime,
                 movingVector.z * _deltaImpulce,
@@ -162,7 +162,7 @@ namespace Controller
         private TimeRemaining.TimeRemaining TimerPainting(float time)
         {
             return new TimeRemaining.TimeRemaining(() => 
-                { _playerView.MeshRenderer.material.color = Color.white;}, time);
+                { _playerView.MeshRenderer().material.color = Color.white;}, time);
         }
 
         private TimeRemaining.TimeRemaining TimerSpeedUp(float time)
@@ -182,5 +182,9 @@ namespace Controller
 
         #endregion
 
+        public void FixedExecute(float deltaTime)
+        {
+            
+        }
     }
 }
