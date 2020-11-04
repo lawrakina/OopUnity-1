@@ -1,4 +1,5 @@
 ﻿using System;
+using Interface;
 using Model;
 using Units.Player;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine;
 
 namespace View
 {
+
     public sealed class PlayerView : MonoBehaviour, IPlayerView
     {
         #region Fields

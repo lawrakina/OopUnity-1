@@ -74,7 +74,7 @@ namespace Bonus
         {
             var bonus = Object.Instantiate(prototype);
             bonus.name = prototype.name;
-            bonus.AddSphereCollider(radius: 1.5f)
+            bonus.AddSphereCollider(radius: 1.5f, isTrigger : true)
                 .AddBonusView(type: type, value: value);
             return bonus;
         }

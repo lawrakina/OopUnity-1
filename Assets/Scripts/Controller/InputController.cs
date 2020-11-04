@@ -3,7 +3,7 @@
 
 namespace Controller
 {
-    public sealed class InputController :IController, IExecute
+    public sealed class InputController :IInitialization, IExecute
     {
         #region Fields
 
@@ -13,7 +13,7 @@ namespace Controller
         #endregion
 
         
-        #region Ctor
+        #region ClassLiveCycles
 
         public InputController((IUserInputProxy inputHorizontal, IUserInputProxy inputVertical) input)
         {
@@ -23,8 +23,14 @@ namespace Controller
 
         #endregion
 
+        
+        public void Initialization()
+        {
+            
+        }
+        
 
-        #region UnityMethods
+        #region IExecute
 
         public void Execute(float deltaTime)
         {

@@ -32,6 +32,7 @@ namespace View
                     Value = _value,
                     OtherName = gameObject.name
                 };
+                Dbg.Log($"OnTriggerEnter:{info.ObjectType}, {info.Value}, {info.OtherName}");
                 obj.OnCollision(info);
                 Destroy(gameObject);
             }

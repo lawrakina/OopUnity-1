@@ -9,6 +9,7 @@ namespace View
 
         private LivesUiView _livesUiView;
         private CoinsUiView _coinsUiView;
+        private MaxCoinsUiView _maxCoinsUiView;
 
         #endregion
 
@@ -34,6 +35,18 @@ namespace View
                     _coinsUiView = Object.FindObjectOfType<CoinsUiView>();
                 }
                 return _coinsUiView;
+            }
+        }
+        
+        public MaxCoinsUiView MaxCoinsUiView
+        {
+            get
+            {
+                if (!_maxCoinsUiView)
+                {
+                    _maxCoinsUiView = Object.FindObjectOfType<MaxCoinsUiView>();
+                }
+                return _maxCoinsUiView;
             }
         }
 

@@ -24,10 +24,11 @@ namespace Extension
             return gameObject;
         }
 
-        public static GameObject AddSphereCollider(this GameObject gameObject, float radius)
+        public static GameObject AddSphereCollider(this GameObject gameObject, float radius, bool isTrigger)
         {
             var component = gameObject.GetOrAddComponent<SphereCollider>();
             component.radius = radius;
+            component.isTrigger = isTrigger;
             return gameObject;
         }
 

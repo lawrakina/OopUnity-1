@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Bonus;
+﻿using Bonus;
 using Controller.TimeRemaining;
 using Data;
 using Healper;
@@ -36,24 +34,39 @@ namespace Controller
         private void Awake()
         {
             LayerManager.GroundLayer = _groundLayer;
-            // var inputVector = new UserInput();
-            var terrainManager       = new TerrainManager(_gameData);
-            var inputInitialization  = new InputInitialization();
-            var playerFactory        = new PlayerFactory(_playerData);
-            var playerInitialization = new PlayerInitialization(playerFactory);
-            var bonusFactory         = new BonusFactory(_bonusData);
-            var bonusInitialization  = new BonusInitialization(bonusFactory, terrainManager);
-            var enemyFactory         = new EnemyFactory(_enemyData);
-            var enemyInitialization  = new EnemyInitialization(enemyFactory, _enemyData, terrainManager);
+            var terrainManager         = new TerrainManager(_gameData);
+            var inputInitialization    = new InputInitialization();
+            var gameStatInitialization = new StatisticsInitialization(_gameData);
+            var playerFactory          = new PlayerFactory(_playerData);
+            var playerInitialization   = new PlayerInitialization(playerFactory);
+            var bonusFactory           = new BonusFactory(_bonusData);
+            var bonusInitialization    = new BonusInitialization(bonusFactory, terrainManager);
+            var enemyFactory           = new EnemyFactory(_enemyData);
+            var enemyInitialization    = new EnemyInitialization(enemyFactory, _enemyData, terrainManager);
+            var uiInitialization       = new UiInitialization();
 
             _controllers = new Controllers();
             _controllers.Add(inputInitialization);
             _controllers.Add(playerInitialization);
             _controllers.Add(enemyInitialization);
             _controllers.Add(bonusInitialization);
-            _controllers.Add(new InputController(inputInitialization.GetInput()));
-            _controllers.Add(new MoveController(inputInitialization.GetInput(), playerInitialization.GetPlayer(),
+            _controllers.Add(new InputController(
+                inputInitialization.GetInput()));
+            _controllers.Add(new MoveController(
+                inputInitialization.GetInput(),
+                playerInitialization.GetPlayer(),
                 _playerData));
+            _controllers.Add(new GameBehaviorController(
+                playerInitialization.GetPlayer(),
+                gameStatInitialization.GetCoinCount(),
+                gameStatInitialization.GetMaxCoinCount(),
+                gameStatInitialization.GetLiveCount()));
+            _controllers.Add(new UiController(
+                uiInitialization.GetUi(),
+                gameStatInitialization.GetCoinCount(),
+                gameStatInitialization.GetMaxCoinCount(),
+                gameStatInitialization.GetLiveCount()
+            ));
             // _controllers.Add(new EnemyMoveController(enemyInitialization.GetEnemy(), playerInitialization.GetPlayer()));
             _controllers.Add(new CameraController(playerInitialization.GetPlayer().Transform(), _mainCamera));
             _controllers.Initialization();
@@ -103,63 +116,6 @@ namespace Controller
         {
             _controllers.Cleanup();
         }
-
-        // private void LateUpdate()
-        // {
-        //     for (var i = 0; i < _iLateUpdated.Count; i++)
-        //     {
-        //         _iLateUpdated[i].LateUpdateTick();
-        //     }
-        // }
-        //
-        // private void FixedUpdate()
-        // {
-        //     for (var i = 0; i < _iFixedUpdated.Count; i++)
-        //     {
-        //         _iFixedUpdated[i].FixedExecute();
-        //     }
-        // }
-
-        // private void OnEnable()
-        // {
-        //     for (var i = 0; i < _iEnabled.Count; i++)
-        //     {
-        //         _iEnabled[i].On();
-        //     }
-        // }
-        //
-        // private void OnDisable()
-        // {
-        //     for (var i = 0; i < _iEnabled.Count; i++)
-        //     {
-        //         _iEnabled[i].Off();
-        //     }
-        // }
-
-        #endregion
-
-
-        #region Methods
-
-        // public void AddUpdated(Interface.IExecute controller)
-        // {
-        //     _iUpdated.Add(controller);
-        // }
-        //
-        // public void AddLateUpdated(ILateUpdated controller)
-        // {
-        //     _iLateUpdated.Add(controller);
-        // }
-        //
-        // public void AddFixedUpdated(IFixedExecute controller)
-        // {
-        //     _iFixedUpdated.Add(controller);
-        // }
-        //
-        // public void AddEnabled(IEnabled controller)
-        // {
-        //     _iEnabled.Add(controller);
-        // }
 
         #endregion
     }

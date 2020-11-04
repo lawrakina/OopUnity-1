@@ -53,6 +53,5 @@ namespace Initializator
         }
 
         #endregion
-
     }
 }

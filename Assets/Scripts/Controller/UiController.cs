@@ -1,50 +1,81 @@
 using Interface;
-using Model;
 using View;
 
 
 namespace Controller
 {
-    public sealed class UiController : IEnabled
+    public sealed class UiController : IInitialization, ICleanup
     {
         #region Fields
 
         private UiInterface _ui;
-        private UiModel _model;
+        private IIntNotifyPropertyChange _coinCount;
+        private IIntNotifyPropertyChange _maxCoinCount;
+        private IIntNotifyPropertyChange _liveCount;
 
         #endregion
 
 
-        #region ctor
+        #region ClassLiveCycles
 
-        public UiController(UiInterface ui, UiModel model)
+        public UiController(
+            UiInterface ui, 
+            IIntNotifyPropertyChange coinCount, 
+            IIntNotifyPropertyChange maxCoinCount, 
+            IIntNotifyPropertyChange liveCount)
         {
             _ui = ui;
-            _model = model;
+            _coinCount = coinCount;
+            _maxCoinCount = maxCoinCount;
+            _liveCount = liveCount;
+            
+            _coinCount.OnValueChange += CoinCountOnValueChange;
+            _maxCoinCount.OnValueChange += MaxCoinCountOnValueChange;
+            _liveCount.OnValueChange += LiveCountOnValueChange;
         }
 
         #endregion
 
-        public void On()
+
+        #region IInitialization
+
+        public void Initialization()
         {
-            _model.Coins.EventChange += CoinsOnEventChange;
-            _model.Lives.EventChange += LivesOnEventChange;
+            
         }
 
-        public void Off()
+        #endregion
+
+        
+        #region ICleanup
+
+        public void Cleanup()
         {
-            _model.Coins.EventChange -= CoinsOnEventChange;
-            _model.Lives.EventChange -= LivesOnEventChange;
+            _coinCount.OnValueChange -= CoinCountOnValueChange;
+            _maxCoinCount.OnValueChange -= MaxCoinCountOnValueChange;
+            _liveCount.OnValueChange -= LiveCountOnValueChange;
         }
 
-        private void LivesOnEventChange()
+        #endregion
+
+
+        #region Methods
+        
+        private void LiveCountOnValueChange(int value)
         {
-            _ui.LivesUiView.Count = _model.Lives.Value;
+            _ui.LivesUiView.Text = $"Live: {value}";
         }
 
-        private void CoinsOnEventChange()
+        private void MaxCoinCountOnValueChange(int value)
         {
-            _ui.CoinsUiView.Text = $" {_model.Coins.Value}/{_model.NeedCoins.Value}";
+            _ui.MaxCoinsUiView.Text = $"/{value}";
         }
+
+        private void CoinCountOnValueChange(int value)
+        {
+            _ui.CoinsUiView.Text = $"{value}";
+        }
+
+        #endregion
     }
 }
