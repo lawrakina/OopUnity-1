@@ -1,4 +1,7 @@
-﻿using Units;
+﻿using System;
+using Interface;
+using Model;
+using Units;
 using UnityEngine;
 
 
@@ -10,7 +13,14 @@ namespace Data
         // public PlayerStruct PlayerStruct;
         [SerializeField] public GameObject StoragePlayer;
         [SerializeField] public Vector3    StartPosition;
-        [SerializeField, Range(0, 200)] private float _speed;
-        public float Speed => _speed;
+        [SerializeField, Range(0, 200)] public float _speed;
+        
+        public IFloatNotifyPropertyChange Speed { get; set; }
+
+        // private void Awake()
+        // {
+        //     Speed = new FloatNotifyPropertyChange(_speed);
+        //     // Speed.Value = _speed;
+        // }
     }
 }

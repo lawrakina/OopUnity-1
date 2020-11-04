@@ -4,7 +4,7 @@ using Interface;
 
 namespace Model
 {
-    public class IntIintNotifyPropertyChange : IIntNotifyPropertyChange
+    public class IntNotifyPropertyChange : IIntNotifyPropertyChange
     {
         #region Fields
 
@@ -15,7 +15,7 @@ namespace Model
 
         #region ClassLiveCycles
 
-        protected IntIintNotifyPropertyChange(int countCoins)
+        protected IntNotifyPropertyChange(int countCoins)
         {
             _value = countCoins;
         }

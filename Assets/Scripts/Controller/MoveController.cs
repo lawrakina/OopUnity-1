@@ -77,7 +77,7 @@ namespace Controller
             //правильное скалярное умножение векторов => скорость под углом 45` ~ 0.706
             _direction = Vector3.ClampMagnitude(_inputVector, 1f);
             var movingVector = new Vector3(_direction.x, 0f, _direction.z);
-            _deltaImpulce = _unitData.Speed * deltaTime;
+            _deltaImpulce = _unitData.Speed.Value * deltaTime;
 
             _unitView.Rigidbody().AddForce(
                 movingVector.x * _deltaImpulce,

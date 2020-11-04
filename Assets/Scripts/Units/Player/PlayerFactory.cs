@@ -1,6 +1,7 @@
 using Data;
 using Extension;
 using Interface;
+using Model;
 using UnityEngine;
 using View;
 
@@ -21,6 +22,8 @@ namespace Units.Player
         public PlayerFactory(PlayerData playerData)
         {
             _playerData = playerData;
+            //костыль!!! Не знаю как исправить
+            _playerData.Speed = new FloatNotifyPropertyChange(_playerData._speed);
         }
 
         #endregion

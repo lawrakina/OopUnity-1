@@ -38,7 +38,7 @@ namespace Controller
             var inputInitialization    = new InputInitialization();
             var gameStatInitialization = new StatisticsInitialization(_gameData);
             var playerFactory          = new PlayerFactory(_playerData);
-            var playerInitialization   = new PlayerInitialization(playerFactory);
+            var playerInitialization   = new PlayerInitialization(playerFactory, _playerData);
             var bonusFactory           = new BonusFactory(_bonusData);
             var bonusInitialization    = new BonusInitialization(bonusFactory, terrainManager);
             var enemyFactory           = new EnemyFactory(_enemyData);
@@ -60,7 +60,8 @@ namespace Controller
                 playerInitialization.GetPlayer(),
                 gameStatInitialization.GetCoinCount(),
                 gameStatInitialization.GetMaxCoinCount(),
-                gameStatInitialization.GetLiveCount()));
+                gameStatInitialization.GetLiveCount(),
+                playerInitialization.GetPlayerSpeed()));
             _controllers.Add(new UiController(
                 uiInitialization.GetUi(),
                 gameStatInitialization.GetCoinCount(),
@@ -69,6 +70,7 @@ namespace Controller
             ));
             // _controllers.Add(new EnemyMoveController(enemyInitialization.GetEnemy(), playerInitialization.GetPlayer()));
             _controllers.Add(new CameraController(playerInitialization.GetPlayer().Transform(), _mainCamera));
+            _controllers.Add(new TimeRemainingController());
             _controllers.Initialization();
 
             //todo добавить:

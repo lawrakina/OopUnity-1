@@ -4,7 +4,7 @@ using Interface;
 
 namespace Controller.TimeRemaining
 {
-    public sealed class TimeRemainingController : IExecute
+    public sealed class TimeRemainingController :IController, IExecute
     {
         #region Fields
 

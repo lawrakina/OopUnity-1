@@ -15,16 +15,11 @@ namespace Data
         public int countLive = 3;
         public int countCoins = 0;
         
-        
         [Description("x - StartPoint.X,\ny - StartPoint.Y,\nz - Lendht,\nw - Wight")]
         public Vector4 SizeOfPlatform =>
             new Vector4(_pointZero.x,
                 _pointZero.y,
                 _lenght,
                 _widht);
-        
-        public BoxInt CountNeedCoins { get; set; }
-        public BoxInt CountCoins { get; set; }
-        public BoxInt CountLive { get; set; }
     }
 }

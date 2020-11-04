@@ -7,7 +7,6 @@ using UnityEngine;
 
 namespace View
 {
-
     public sealed class PlayerView : MonoBehaviour, IPlayerView
     {
         #region Fields
@@ -16,6 +15,7 @@ namespace View
         private Collider     _collider;
         private Rigidbody    _rigidbody;
         private MeshRenderer _meshRenderer;
+        private int          _speed;
 
         #endregion
 

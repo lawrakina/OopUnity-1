@@ -1,7 +1,9 @@
+using Interface;
+
 namespace Units
 {
     public interface IUnit
     {
-        float Speed { get; }
+        IFloatNotifyPropertyChange Speed { get; set; }
     }
 }
