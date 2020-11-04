@@ -81,26 +81,6 @@ namespace Controller
             _controllers.Add(new CameraController(playerInitialization.GetPlayer().Transform(), _mainCamera));
             _controllers.Add(new TimeRemainingController());
             _controllers.Initialization();
-
-            //todo добавить:
-            // 4) gui   экран победы и поражения
-
-            // _playerData.PlayerStruct.Speed = new BoxFloat(){};
-            // _gameData.GameStruct.CountCoins = new BoxInt() {};
-            // _gameData.GameStruct.CountLive = new BoxInt() {};
-            // _gameData.GameStruct.CountNeedCoins = new BoxInt(){};
-
-            // _playerData.PlayerStruct.Speed.Value = _playerData.PlayerStruct.speed;
-            // _gameData.GameStruct.CountCoins.Value = _gameData.GameStruct.countCoins;
-            // _gameData.GameStruct.CountLive.Value = _gameData.GameStruct.countLive;
-            // _gameData.GameStruct.CountNeedCoins.Value = _gameData.GameStruct.countNeedCoins;
-
-            // new PlayerInitializator(this, _gameData, _playerData, inputVector);
-            // new BonusInitialization(_gameData);
-            // new UiInitializator(this, _gameData, _playerData);
-            // AddLateUpdated(CameraInitializator.GetController(_playerData, _mainCamera));
-            // AddUpdated(new InputController(inputVector));
-            // AddUpdated(new TimeRemainingController());
         }
 
         private void Update()
