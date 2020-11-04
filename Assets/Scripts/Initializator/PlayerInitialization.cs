@@ -9,10 +9,10 @@ namespace Initializator
 {
     public sealed class PlayerInitialization : IInitialization
     {
-        private readonly IPlayerFactory _playerFactory;
-        private PlayerData _playerData;
-        private          IPlayerView _player;
-        private IFloatNotifyPropertyChange _speedPlayer;
+        private readonly IPlayerFactory             _playerFactory;
+        private          PlayerData                 _playerData;
+        private          IPlayerView                _player;
+        private          IFloatNotifyPropertyChange _speedPlayer;
 
         public PlayerInitialization(IPlayerFactory playerFactory, PlayerData playerData)
         {
@@ -21,7 +21,7 @@ namespace Initializator
             _player = _playerFactory.CreatePlayer();
             _speedPlayer = _playerData.Speed;
         }
-        
+
         public void Initialization()
         {
         }

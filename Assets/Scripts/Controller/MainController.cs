@@ -3,6 +3,7 @@ using Controller.TimeRemaining;
 using Data;
 using Healper;
 using Initializator;
+using Model;
 using Units.Enemy;
 using Units.Player;
 using UnityEngine;
@@ -17,11 +18,12 @@ namespace Controller
 
         private Controllers _controllers;
 
-        [SerializeField] private CameraView _mainCamera;
-        [SerializeField] private PlayerData _playerData;
-        [SerializeField] private GameData   _gameData;
-        [SerializeField] private BonusData  _bonusData;
-        [SerializeField] private EnemyData  _enemyData;
+        [SerializeField] private CameraView  _mainCamera;
+        [SerializeField] private PlayerData  _playerData;
+        [SerializeField] private GameData    _gameData;
+        [SerializeField] private BonusData   _bonusData;
+        [SerializeField] private EnemyData   _enemyData;
+        private                  UiReference _uiReference;
 
         [Header("Game Layers")] [SerializeField]
         private LayerMask _groundLayer;
@@ -34,16 +36,18 @@ namespace Controller
         private void Awake()
         {
             LayerManager.GroundLayer = _groundLayer;
-            var terrainManager         = new TerrainManager(_gameData);
-            var inputInitialization    = new InputInitialization();
-            var gameStatInitialization = new StatisticsInitialization(_gameData);
-            var playerFactory          = new PlayerFactory(_playerData);
-            var playerInitialization   = new PlayerInitialization(playerFactory, _playerData);
-            var bonusFactory           = new BonusFactory(_bonusData);
-            var bonusInitialization    = new BonusInitialization(bonusFactory, terrainManager);
-            var enemyFactory           = new EnemyFactory(_enemyData);
-            var enemyInitialization    = new EnemyInitialization(enemyFactory, _enemyData, terrainManager);
-            var uiInitialization       = new UiInitialization();
+            _uiReference = new UiReference();
+            var terrainManager          = new TerrainManager(_gameData);
+            var inputInitialization     = new InputInitialization();
+            var statInitialization      = new StatisticsInitialization(_gameData);
+            var playerFactory           = new PlayerFactory(_playerData);
+            var playerInitialization    = new PlayerInitialization(playerFactory, _playerData);
+            var bonusFactory            = new BonusFactory(_bonusData);
+            var bonusInitialization     = new BonusInitialization(bonusFactory, terrainManager);
+            var enemyFactory            = new EnemyFactory(_enemyData);
+            var enemyInitialization     = new EnemyInitialization(enemyFactory, _enemyData, terrainManager);
+            var uiInitialization        = new UiInitialization(_uiReference);
+            var gameStateInitialization = new GameStateInitialization(_gameData, _playerData);
 
             _controllers = new Controllers();
             _controllers.Add(inputInitialization);
@@ -56,17 +60,22 @@ namespace Controller
                 inputInitialization.GetInput(),
                 playerInitialization.GetPlayer(),
                 _playerData));
-            _controllers.Add(new GameBehaviorController(
+            _controllers.Add(new PlayerBehaviorController(
                 playerInitialization.GetPlayer(),
-                gameStatInitialization.GetCoinCount(),
-                gameStatInitialization.GetMaxCoinCount(),
-                gameStatInitialization.GetLiveCount(),
-                playerInitialization.GetPlayerSpeed()));
+                statInitialization.GetCoinCount(),
+                statInitialization.GetMaxCoinCount(),
+                statInitialization.GetLiveCount(),
+                playerInitialization.GetPlayerSpeed(),
+                gameStateInitialization.GetGameState()));
             _controllers.Add(new UiController(
                 uiInitialization.GetUi(),
-                gameStatInitialization.GetCoinCount(),
-                gameStatInitialization.GetMaxCoinCount(),
-                gameStatInitialization.GetLiveCount()
+                statInitialization.GetCoinCount(),
+                statInitialization.GetMaxCoinCount(),
+                statInitialization.GetLiveCount(),
+                uiInitialization.GetMenuScreen(),
+                uiInitialization.GetPauseScreen(),
+                uiInitialization.GetEndScreen(),
+                gameStateInitialization.GetGameState()
             ));
             // _controllers.Add(new EnemyMoveController(enemyInitialization.GetEnemy(), playerInitialization.GetPlayer()));
             _controllers.Add(new CameraController(playerInitialization.GetPlayer().Transform(), _mainCamera));
@@ -74,9 +83,7 @@ namespace Controller
             _controllers.Initialization();
 
             //todo добавить:
-            // 1) класс контроллер
             // 4) gui   экран победы и поражения
-            // 5) счетчики coins & live
 
             // _playerData.PlayerStruct.Speed = new BoxFloat(){};
             // _gameData.GameStruct.CountCoins = new BoxInt() {};

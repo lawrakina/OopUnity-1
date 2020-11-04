@@ -9,8 +9,8 @@ namespace Data
     public sealed class GameStruct
     {
         [SerializeField] private Vector2 _pointZero = Vector2.zero;
-        [SerializeField] private float _lenght = 50.0f;
-        [SerializeField] private float _widht = 50.0f;
+        [SerializeField] private float _lenght = 100.0f;
+        [SerializeField] private float _widht = 100.0f;
         public int countNeedCoins = 10;
         public int countLive = 3;
         public int countCoins = 0;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace View
@@ -10,6 +11,7 @@ namespace View
         private LivesUiView _livesUiView;
         private CoinsUiView _coinsUiView;
         private MaxCoinsUiView _maxCoinsUiView;
+        private Button _pauseButton;
 
         #endregion
 
@@ -47,6 +49,19 @@ namespace View
                     _maxCoinsUiView = Object.FindObjectOfType<MaxCoinsUiView>();
                 }
                 return _maxCoinsUiView;
+            }
+        }
+
+        public Button PauseButton
+        {
+            get
+            {
+                if (!_pauseButton)
+                {
+                    _pauseButton = Object.FindObjectOfType<Button>();
+                }
+
+                return _pauseButton;
             }
         }
 

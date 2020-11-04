@@ -13,21 +13,9 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   GameStruct:
-    StorageCoin: {fileID: 4728832170694749682, guid: dce99623b7f4b984ea71e537cd51cce3,
-      type: 3}
-    StorageBonusImmunity: {fileID: 4728832170694749682, guid: e2cab0c61edcc5e4db8872aac866e5f4,
-      type: 3}
-    StorageBonusBomb: {fileID: 4728832170694749682, guid: 01070d610a448434cb4728b07a5c94d2,
-      type: 3}
-    StorageBonusSpeedUp: {fileID: 4728832170694749682, guid: 8f97f2e921afb7a4e961599edc903a3a,
-      type: 3}
-    PointZero: {x: 0, y: 0}
-    Lenght: 100
-    Widht: 100
-    createCountCoins: 50
-    createCountBonusSpeedUp: 20
-    createCountBonusImmunity: 5
-    createCountBonusBomb: 20
+    _pointZero: {x: 0, y: 0}
+    _lenght: 100
+    _widht: 100
     countNeedCoins: 10
     countLive: 3
     countCoins: 0

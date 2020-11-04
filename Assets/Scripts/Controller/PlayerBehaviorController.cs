@@ -10,13 +10,16 @@ using UnityEngine;
 
 namespace Controller
 {
-    public sealed class GameBehaviorController : IInitialization, ICleanup
+    public sealed class PlayerBehaviorController : IInitialization, ICleanup
     {
-        private IPlayerView                _playerView;
-        private IIntNotifyPropertyChange   _coinCount;
-        private IIntNotifyPropertyChange   _maxCoinCount;
-        private IIntNotifyPropertyChange   _liveCount;
-        private IFloatNotifyPropertyChange _speedPlayer;
+        #region Fields
+
+        private IPlayerView                    _playerView;
+        private IIntNotifyPropertyChange       _coinCount;
+        private IIntNotifyPropertyChange       _maxCoinCount;
+        private IIntNotifyPropertyChange       _liveCount;
+        private IFloatNotifyPropertyChange     _speedPlayer;
+        private IGameStateNotifyPropertyChange _gameState;
 
         private TimeRemaining.TimeRemaining _timerPainting;
         private TimeRemaining.TimeRemaining _timerSpeedUp;
@@ -26,11 +29,18 @@ namespace Controller
         private float _standardTime = 5.0f;
         private bool  _playerImmunity;
 
-        public GameBehaviorController(IPlayerView playerView,
-            IIntNotifyPropertyChange              coinCount,
-            IIntNotifyPropertyChange              maxCoinCount,
-            IIntNotifyPropertyChange              liveCount,
-            IFloatNotifyPropertyChange            playerSpeed)
+        #endregion
+
+        
+        #region ClassLiveCycles
+
+        public PlayerBehaviorController(
+            IPlayerView                    playerView,
+            IIntNotifyPropertyChange       coinCount,
+            IIntNotifyPropertyChange       maxCoinCount,
+            IIntNotifyPropertyChange       liveCount,
+            IFloatNotifyPropertyChange     playerSpeed,
+            IGameStateNotifyPropertyChange gameState)
         {
             _playerView = playerView;
             _playerView.OnBonusUp += PlayerViewBonusUp;
@@ -38,8 +48,13 @@ namespace Controller
             _maxCoinCount = maxCoinCount;
             _liveCount = liveCount;
             _speedPlayer = playerSpeed;
+            _gameState = gameState;
         }
 
+        #endregion
+
+
+        #region IInitialization
 
         public void Initialization()
         {
@@ -49,6 +64,11 @@ namespace Controller
             _timerSpeedUp = TimerSpeedUp(_standardTime);
             _timerImmunity = TimerImmunity(_standardTime);
         }
+
+        #endregion
+
+        
+        #region ICollision
 
         private void PlayerViewBonusUp(InfoCollision info)
         {
@@ -65,13 +85,10 @@ namespace Controller
                     if (_playerImmunity) break;
                     _liveCount.Value -= info.Value;
                     if (_liveCount.Value <= 0)
-                    {
-                        //todo реализовать смерть, бу-га-га (ఠ益ఠ)
-                    }
-
+                        _gameState.SetValue(GameState.Fail, $"{StringManager.MESSAGE_FAIL}: {info.OtherName}");
                     break;
                 case InteractiveObjectType.Finish:
-                    //todo реализовать обработку конца игры
+                    _gameState.SetValue(GameState.Win, StringManager.MESSAGE_WIN);
                     break;
                 case InteractiveObjectType.SpeedUp:
                     _speedPlayer.Value *= info.Value;
@@ -89,10 +106,20 @@ namespace Controller
             }
         }
 
+        #endregion
+
+        
+        #region ICleanup
+
         public void Cleanup()
         {
             _playerView.OnBonusUp -= PlayerViewBonusUp;
         }
+
+        #endregion
+
+
+        #region Methods
 
         private TimeRemaining.TimeRemaining TimerPainting(float time)
         {
@@ -119,5 +146,7 @@ namespace Controller
             _playerView.MeshRenderer().material.color = color;
             _timerPainting.AddTimeRemainingExecute();
         }
+
+        #endregion
     }
 }
