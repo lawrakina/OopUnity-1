@@ -34,7 +34,7 @@ namespace Units.Player
             var player = Object.Instantiate(_playerData.StoragePlayer);
             player.name = $"Player";
             player.AddSphereCollider(radius: 0.5f, isTrigger: false)
-                .AddRigitBody(mass: 1, CollisionDetectionMode.Continuous)
+                .AddRigitBody(mass: 1, CollisionDetectionMode.Continuous, isKinematic:false)
                 .AddCode<PlayerView>();
             return player.GetComponent<IPlayerView>();
         }

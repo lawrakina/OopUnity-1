@@ -10,7 +10,7 @@ namespace Initializator
     {
         #region Fields
 
-        private readonly UiInterface _uiInterface;
+        private readonly UiPlay _uiPlay;
         private UiReference _uiReference;
 
         #endregion
@@ -20,7 +20,7 @@ namespace Initializator
 
         public UiInitialization(UiReference uiReference)
         {
-            _uiInterface = new UiInterface();
+            _uiPlay = new UiPlay();
             _uiReference = uiReference;
         }
 
@@ -39,9 +39,9 @@ namespace Initializator
 
         #region Methods
 
-        public UiInterface GetUi()
+        public UiPlay GetUi()
         {
-            return _uiInterface;
+            return _uiPlay;
         }
 
         #endregion

@@ -1,7 +1,13 @@
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Numerics;
 using Data;
+using Healper;
 using Interface;
 using UnityEngine;
+using Random = UnityEngine.Random;
+using Vector3 = UnityEngine.Vector3;
+using Vector4 = UnityEngine.Vector4;
 
 
 namespace Initializator
@@ -42,13 +48,21 @@ namespace Initializator
 
         public Vector3 GeneratePoint()
         {
-            return new Vector3(
-                Random.Range(SizeOfPlatform.x - (SizeOfPlatform.z / 2), 
-                    SizeOfPlatform.x + (SizeOfPlatform.z / 2)),
-                1.0f,
-                Random.Range(SizeOfPlatform.y - (SizeOfPlatform.w / 2), 
-                    SizeOfPlatform.y + (SizeOfPlatform.w / 2))
-            );
+            Vector3 result = Vector3.one;
+            for (int i = 0; i < 10; i++)
+            {
+                var checkPoint = new Vector3(
+                        Random.Range(SizeOfPlatform.x - (SizeOfPlatform.z / 2), 
+                            SizeOfPlatform.x + (SizeOfPlatform.z / 2)),
+                        1.5f,
+                        Random.Range(SizeOfPlatform.y - (SizeOfPlatform.w / 2), 
+                            SizeOfPlatform.y + (SizeOfPlatform.w / 2)));
+                var _ = new Collider[2];
+                int numColliders = Physics.OverlapSphereNonAlloc(checkPoint,2.0f, _);
+                Dbg.Log($"i:{i}, numColliders:{numColliders}");
+                if (numColliders == 1) return checkPoint;
+            }
+            return result;
         }
 
         #endregion

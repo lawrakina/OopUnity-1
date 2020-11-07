@@ -40,5 +40,10 @@ namespace Initializator
         {
             
         }
+
+        public object GetEnemy()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

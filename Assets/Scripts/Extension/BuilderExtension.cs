@@ -16,7 +16,7 @@ namespace Extension
         }
 
         public static GameObject AddRigitBody(this GameObject gameObject, float mass,
-            CollisionDetectionMode                            collisionDetectionMode)
+            CollisionDetectionMode                            collisionDetectionMode, bool isKinematic)
         {
             var component = gameObject.GetOrAddComponent<Rigidbody>();
             component.mass = mass;

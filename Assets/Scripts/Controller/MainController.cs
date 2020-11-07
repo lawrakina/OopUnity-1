@@ -48,7 +48,7 @@ namespace Controller
             var enemyInitialization     = new EnemyInitialization(enemyFactory, _enemyData, terrainManager);
             var uiInitialization        = new UiInitialization(_uiReference);
             var gameStateInitialization = new GameStateInitialization(_gameData, _playerData);
-
+            
             _controllers = new Controllers();
             _controllers.Add(inputInitialization);
             _controllers.Add(playerInitialization);
@@ -77,7 +77,7 @@ namespace Controller
                 uiInitialization.GetEndScreen(),
                 gameStateInitialization.GetGameState()
             ));
-            // _controllers.Add(new EnemyMoveController(enemyInitialization.GetEnemy(), playerInitialization.GetPlayer()));
+            _controllers.Add(new EnemyMoveController(enemyInitialization.GetEnemy(), playerInitialization.GetPlayer()));
             _controllers.Add(new CameraController(playerInitialization.GetPlayer().Transform(), _mainCamera));
             _controllers.Add(new TimeRemainingController());
             _controllers.Initialization();

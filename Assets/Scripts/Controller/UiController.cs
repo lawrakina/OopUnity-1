@@ -15,7 +15,7 @@ namespace Controller
     {
         #region Fields
 
-        private UiInterface                    _ui;
+        private UiPlay                    _ui;
         private IIntNotifyPropertyChange       _coinCount;
         private IIntNotifyPropertyChange       _maxCoinCount;
         private IIntNotifyPropertyChange       _liveCount;
@@ -29,7 +29,7 @@ namespace Controller
 
         #region ClassLiveCycles
 
-        public UiController(UiInterface    ui,
+        public UiController(UiPlay    ui,
             IIntNotifyPropertyChange       coinCount,
             IIntNotifyPropertyChange       maxCoinCount,
             IIntNotifyPropertyChange       liveCount,
@@ -60,10 +60,7 @@ namespace Controller
 
         private UnityAction StartGame()
         {
-            return () =>
-            {
-                _gameState.SetValue(GameState.Play, "Start");
-            };
+            return () => { _gameState.SetValue(GameState.Play, "Start"); };
         }
 
         private UnityAction EnablePause()
@@ -76,7 +73,7 @@ namespace Controller
                 }
                 else
                 {
-                    _gameState.SetValue(GameState.Play,"");
+                    _gameState.SetValue(GameState.Play, "");
                 }
             };
         }
@@ -145,6 +142,7 @@ namespace Controller
             _coinCount.OnValueChange -= CoinCountOnValueChange;
             _maxCoinCount.OnValueChange -= MaxCoinCountOnValueChange;
             _liveCount.OnValueChange -= LiveCountOnValueChange;
+            _gameState.OnValueChange -= GameStateOnValueChange;
         }
 
         #endregion

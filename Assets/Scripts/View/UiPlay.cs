@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace View
 {
-    public sealed class UiInterface
+    public sealed class UiPlay
     {
         #region Fields
 
