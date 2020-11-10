@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e581204e434b8ba78eed35a76a4741, type: 3}
+  m_Name: BonusData
+  m_EditorClassIdentifier: 
+  BonusStruct:
+    StorageCoin: {fileID: 4728832170694749682, guid: dce99623b7f4b984ea71e537cd51cce3,
+      type: 3}
+    StorageBonusImmunity: {fileID: 4728832170694749682, guid: e2cab0c61edcc5e4db8872aac866e5f4,
+      type: 3}
+    StorageBonusBomb: {fileID: 4728832170694749682, guid: 01070d610a448434cb4728b07a5c94d2,
+      type: 3}
+    StorageBonusSpeedUp: {fileID: 4728832170694749682, guid: 8f97f2e921afb7a4e961599edc903a3a,
+      type: 3}
+    StorageLive: {fileID: 4728832170694749682, guid: 56f866da82bb69f438b2daedff8eb26b,
+      type: 3}
+    createCountCoins: 50
+    createCountBonusSpeedUp: 5
+    createCountBonusImmunity: 5
+    createCountBonusBomb: 20
+    createExtraLive: 3
