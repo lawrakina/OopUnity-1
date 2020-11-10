@@ -1,15 +1,38 @@
-﻿using UnityEngine;
+﻿using System;
+using Interface;
+using Model;
+using Units.Player;
+using UnityEngine;
 
 
 namespace View
 {
-    public sealed class PlayerView : MonoBehaviour
+    public sealed class PlayerView : MonoBehaviour, IPlayerView
     {
         #region Fields
 
-        public Transform Transform;
-        public Collider Collider;
-        public Rigidbody Rigidbody;
+        private Transform    _transform;
+        private Collider     _collider;
+        private Rigidbody    _rigidbody;
+        private MeshRenderer _meshRenderer;
+        private int          _speed;
+
+        #endregion
+
+
+        #region Properties
+
+        public Transform    Transform()    => _transform;
+        public Collider     Collider()     => _collider;
+        public Rigidbody    Rigidbody()    => _rigidbody;
+        public MeshRenderer MeshRenderer() => _meshRenderer;
+
+        #endregion
+
+
+        #region Events
+
+        public event Action<InfoCollision> OnBonusUp;
 
         #endregion
 
@@ -18,9 +41,20 @@ namespace View
 
         private void Awake()
         {
-            Transform = GetComponent<Transform>();
-            Rigidbody = GetComponent<Rigidbody>();
-            Collider = GetComponent<Collider>();
+            _transform = GetComponent<Transform>();
+            _rigidbody = GetComponent<Rigidbody>();
+            _collider = GetComponent<Collider>();
+            _meshRenderer = GetComponent<MeshRenderer>();
+        }
+
+        #endregion
+
+
+        #region Methods
+
+        public void OnCollision(InfoCollision infoCollision)
+        {
+            OnBonusUp?.Invoke(infoCollision);
         }
 
         #endregion

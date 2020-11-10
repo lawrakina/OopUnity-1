@@ -5,7 +5,7 @@ using View;
 
 namespace Controller
 {
-    public sealed class CameraController: IUpdated
+    public sealed class CameraController:IController, ILateExecute
     {
         #region Fields
     
@@ -25,14 +25,9 @@ namespace Controller
 
         #endregion
 
-        
-        #region IUpdated
-
-        public void UpdateTick()
+        public void LateExecute(float deltaTime)
         {
-            _cameraView.transform.position = _target.position +  _cameraView.OffSet;
+            _cameraView.transform.position = Vector3.Lerp (_cameraView.transform.position, _target.position +  _cameraView.OffSet, deltaTime);
         }
-
-        #endregion
     }
 }

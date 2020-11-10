@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Bonus;
+using Controller.TimeRemaining;
 using Data;
 using Healper;
 using Initializator;
-using Interface;
+using Model;
+using Units.Enemy;
+using Units.Player;
 using UnityEngine;
 using View;
 
@@ -13,10 +16,14 @@ namespace Controller
     {
         #region Fields
 
-        private readonly List<IUpdated> _iUpdated = new List<IUpdated>();
+        private Controllers _controllers;
 
-        [SerializeField] private CameraView _mainCamera;
-        [SerializeField] private PlayerData _playerData;
+        [SerializeField] private CameraView  _mainCamera;
+        [SerializeField] private PlayerData  _playerData;
+        [SerializeField] private GameData    _gameData;
+        [SerializeField] private BonusData   _bonusData;
+        [SerializeField] private EnemyData   _enemyData;
+        private                  UiReference _uiReference;
 
         [Header("Game Layers")] [SerializeField]
         private LayerMask _groundLayer;
@@ -29,34 +36,74 @@ namespace Controller
         private void Awake()
         {
             LayerManager.GroundLayer = _groundLayer;
+            _uiReference = new UiReference();
+            var terrainManager          = new TerrainManager(_gameData);
+            var inputInitialization     = new InputInitialization();
+            var statInitialization      = new StatisticsInitialization(_gameData);
+            var playerFactory           = new PlayerFactory(_playerData);
+            var playerInitialization    = new PlayerInitialization(playerFactory, _playerData);
+            var bonusFactory            = new BonusFactory(_bonusData);
+            var bonusInitialization     = new BonusInitialization(bonusFactory, terrainManager);
+            var enemyFactory            = new EnemyFactory(_enemyData);
+            var enemyInitialization     = new EnemyInitialization(enemyFactory, _enemyData, terrainManager);
+            var uiInitialization        = new UiInitialization(_uiReference);
+            var gameStateInitialization = new GameStateInitialization(_gameData, _playerData);
 
-            var inputVector = new UserInput();
-            AddUpdated(PlayerInitializator.GetController(_playerData, inputVector));
-            AddUpdated(CameraInitializator.GetController(_playerData, _mainCamera));
-            AddUpdated(new InputController(inputVector));
-            
-            //For history 8-)
-            // new PlayerInitializator(this, _playerData, inputVector);
-            // new CameraInitializator(this, _playerData, _mainCamera);
-            // new InputInitializator(this, inputVector); 
+            _controllers = new Controllers();
+            _controllers.Add(inputInitialization);
+            _controllers.Add(playerInitialization);
+            _controllers.Add(enemyInitialization);
+            _controllers.Add(bonusInitialization);
+            _controllers.Add(new InputController(
+                inputInitialization.GetInput()));
+            _controllers.Add(new MoveController(
+                inputInitialization.GetInput(),
+                playerInitialization.GetPlayer(),
+                _playerData));
+            _controllers.Add(new PlayerBehaviorController(
+                playerInitialization.GetPlayer(),
+                statInitialization.GetCoinCount(),
+                statInitialization.GetMaxCoinCount(),
+                statInitialization.GetLiveCount(),
+                playerInitialization.GetPlayerSpeed(),
+                gameStateInitialization.GetGameState()));
+            _controllers.Add(new UiController(
+                uiInitialization.GetUi(),
+                statInitialization.GetCoinCount(),
+                statInitialization.GetMaxCoinCount(),
+                statInitialization.GetLiveCount(),
+                uiInitialization.GetMenuScreen(),
+                uiInitialization.GetPauseScreen(),
+                uiInitialization.GetEndScreen(),
+                gameStateInitialization.GetGameState()
+            ));
+            // _controllers.Add(new EnemyMoveController(enemyInitialization.GetEnemy(), playerInitialization.GetPlayer()));
+            _controllers.Add(new CameraController(playerInitialization.GetPlayer().Transform(), _mainCamera));
+            _controllers.Add(new TimeRemainingController());
+            _controllers.Initialization();
         }
 
         private void Update()
         {
-            for (var i = 0; i < _iUpdated.Count; i++)
-            {
-                _iUpdated[i].UpdateTick();
-            }
+            var deltaTime = Time.deltaTime;
+            _controllers.Execute(deltaTime);
         }
 
-        #endregion
-
-
-        #region Methods
-
-        public void AddUpdated(IUpdated controller)
+        private void LateUpdate()
         {
-            _iUpdated.Add(controller);
+            var deltaTime = Time.deltaTime;
+            _controllers.LateExecute(deltaTime);
+        }
+
+        private void FixedUpdate()
+        {
+            var deltaTime = Time.fixedDeltaTime;
+            _controllers.FixedExecute(deltaTime);
+        }
+
+        private void OnDestroy()
+        {
+            _controllers.Cleanup();
         }
 
         #endregion
