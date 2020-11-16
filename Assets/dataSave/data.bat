@@ -1,0 +1,1 @@
+{"Name":"MyName","Position":{"X":-45.2400016784668,"Y":2.0,"Z":-45.0099983215332},"IsEnabled":true}

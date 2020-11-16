@@ -4,6 +4,7 @@ using Data;
 using Healper;
 using Initializator;
 using Model;
+using SaveLoadData;
 using Units.Enemy;
 using Units.Player;
 using UnityEngine;
@@ -48,36 +49,49 @@ namespace Controller
             var enemyInitialization     = new EnemyInitialization(enemyFactory, _enemyData, terrainManager);
             var uiInitialization        = new UiInitialization(_uiReference);
             var gameStateInitialization = new GameStateInitialization(_gameData, _playerData);
-            
+            var saveDataRepository      = new SaveDataRepository();
+
+            var player = new PlayerModel(
+                playerInitialization.GetPlayer(),
+                playerInitialization.GetPlayerSpeed()
+            );
+            var stats = new StatsModel(
+                statInitialization.GetCoinCount(),
+                statInitialization.GetMaxCoinCount(),
+                statInitialization.GetLiveCount()
+            );
+            var enemies = new EnemiesModel(
+                enemyInitialization.GetEnemies()
+            );
+
             _controllers = new Controllers();
             _controllers.Add(inputInitialization);
             _controllers.Add(playerInitialization);
             _controllers.Add(enemyInitialization);
             _controllers.Add(bonusInitialization);
             _controllers.Add(new InputController(
-                inputInitialization.GetInput()));
+                inputInitialization.GetInput(),
+                saveDataRepository,
+                player
+            ));
             _controllers.Add(new MoveController(
                 inputInitialization.GetInput(),
                 playerInitialization.GetPlayer(),
                 _playerData));
             _controllers.Add(new PlayerBehaviorController(
-                playerInitialization.GetPlayer(),
-                statInitialization.GetCoinCount(),
-                statInitialization.GetMaxCoinCount(),
-                statInitialization.GetLiveCount(),
-                playerInitialization.GetPlayerSpeed(),
+                player,
+                stats,
                 gameStateInitialization.GetGameState()));
             _controllers.Add(new UiController(
+                stats,
                 uiInitialization.GetUi(),
-                statInitialization.GetCoinCount(),
-                statInitialization.GetMaxCoinCount(),
-                statInitialization.GetLiveCount(),
                 uiInitialization.GetMenuScreen(),
                 uiInitialization.GetPauseScreen(),
                 uiInitialization.GetEndScreen(),
                 gameStateInitialization.GetGameState()
             ));
-            _controllers.Add(new EnemyMoveController(enemyInitialization.GetEnemy(), playerInitialization.GetPlayer()));
+            _controllers.Add(
+                new EnemyMoveController(enemyInitialization.GetEnemies(), playerInitialization.GetPlayer()));
             _controllers.Add(new CameraController(playerInitialization.GetPlayer().Transform(), _mainCamera));
             _controllers.Add(new TimeRemainingController());
             _controllers.Initialization();

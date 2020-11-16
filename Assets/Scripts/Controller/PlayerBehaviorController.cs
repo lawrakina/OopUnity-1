@@ -15,10 +15,8 @@ namespace Controller
         #region Fields
 
         private IPlayerView                    _playerView;
-        private IIntNotifyPropertyChange       _coinCount;
-        private IIntNotifyPropertyChange       _maxCoinCount;
-        private IIntNotifyPropertyChange       _liveCount;
-        private IFloatNotifyPropertyChange     _speedPlayer;
+        private StatsModel                     _statsModel;
+        private PlayerModel                    _playerModel;
         private IGameStateNotifyPropertyChange _gameState;
 
         private TimeRemaining.TimeRemaining _timerPainting;
@@ -31,24 +29,18 @@ namespace Controller
 
         #endregion
 
-        
+
         #region ClassLiveCycles
 
         public PlayerBehaviorController(
-            IPlayerView                    playerView,
-            IIntNotifyPropertyChange       coinCount,
-            IIntNotifyPropertyChange       maxCoinCount,
-            IIntNotifyPropertyChange       liveCount,
-            IFloatNotifyPropertyChange     playerSpeed,
+            PlayerModel                    playerModel,
+            StatsModel                     statsModel,
             IGameStateNotifyPropertyChange gameState)
         {
-            _playerView = playerView;
-            _playerView.OnBonusUp += PlayerViewBonusUp;
-            _coinCount = coinCount;
-            _maxCoinCount = maxCoinCount;
-            _liveCount = liveCount;
-            _speedPlayer = playerSpeed;
+            _playerView = playerModel.PlayerView;
             _gameState = gameState;
+            _statsModel = statsModel;
+            _playerModel = playerModel;
         }
 
         #endregion
@@ -58,7 +50,7 @@ namespace Controller
 
         public void Initialization()
         {
-            _cashStartSpeedPlayer = _speedPlayer.Value;
+            _cashStartSpeedPlayer = _playerModel.PlayerSpeed.Value;
 
             _timerPainting = TimerPainting(_standardTime);
             _timerSpeedUp = TimerSpeedUp(_standardTime);
@@ -67,7 +59,7 @@ namespace Controller
 
         #endregion
 
-        
+
         #region ICollision
 
         private void PlayerViewBonusUp(InfoCollision info)
@@ -76,22 +68,22 @@ namespace Controller
             switch (info.ObjectType)
             {
                 case InteractiveObjectType.Coin:
-                    _coinCount.Value += info.Value;
+                    _statsModel.CoinCount.Value += info.Value;
                     break;
                 case InteractiveObjectType.ExtraLive:
-                    _liveCount.Value += info.Value;
+                    _statsModel.LiveCount.Value += info.Value;
                     break;
                 case InteractiveObjectType.Bomb:
                     if (_playerImmunity) break;
-                    _liveCount.Value -= info.Value;
-                    if (_liveCount.Value <= 0)
+                    _statsModel.LiveCount.Value -= info.Value;
+                    if (_statsModel.LiveCount.Value <= 0)
                         _gameState.SetValue(GameState.Fail, $"{StringManager.MESSAGE_FAIL}: {info.OtherName}");
                     break;
                 case InteractiveObjectType.Finish:
                     _gameState.SetValue(GameState.Win, StringManager.MESSAGE_WIN);
                     break;
                 case InteractiveObjectType.SpeedUp:
-                    _speedPlayer.Value *= info.Value;
+                    _playerModel.PlayerSpeed.Value *= info.Value;
                     _timerSpeedUp.AddTimeRemainingExecute();
                     PaintToColor(Color.green);
                     break;
@@ -108,7 +100,7 @@ namespace Controller
 
         #endregion
 
-        
+
         #region ICleanup
 
         public void Cleanup()
@@ -131,8 +123,8 @@ namespace Controller
         {
             return new TimeRemaining.TimeRemaining(() =>
             {
-                Dbg.Log($"_model.NormalSpeed:{_speedPlayer.Value}");
-                _speedPlayer.Value = _cashStartSpeedPlayer;
+                Dbg.Log($"_model.NormalSpeed:{_playerModel.PlayerSpeed.Value}");
+                _playerModel.PlayerSpeed.Value = _cashStartSpeedPlayer;
             }, time);
         }
 

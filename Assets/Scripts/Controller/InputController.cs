@@ -1,22 +1,35 @@
 ﻿using Interface;
+using Model;
+using SaveLoadData;
+using UnityEngine;
 
 
 namespace Controller
 {
     public sealed class InputController :IInitialization, IExecute
     {
+
         #region Fields
 
         private readonly IUserInputProxy _horizontal;
         private readonly IUserInputProxy _vertical;
+        private readonly SaveDataRepository _saveDataRepository;
+        private readonly PlayerModel _player;
+        private readonly KeyCode _savePlayer = KeyCode.C;
+        private readonly KeyCode _loadPlayer = KeyCode.V;
 
         #endregion
 
         
         #region ClassLiveCycles
 
-        public InputController((IUserInputProxy inputHorizontal, IUserInputProxy inputVertical) input)
+        public InputController(
+            (IUserInputProxy inputHorizontal, IUserInputProxy inputVertical) input, 
+            SaveDataRepository saveDataRepository, 
+            PlayerModel player)
         {
+            _saveDataRepository = saveDataRepository;
+            _player = player;
             _horizontal = input.inputHorizontal;
             _vertical = input.inputVertical;
         }
@@ -36,6 +49,15 @@ namespace Controller
         {
             _horizontal.GetAxis();
             _vertical.GetAxis();
+            
+            if (Input.GetKeyDown(_savePlayer))
+            {
+                _saveDataRepository.Save(_player);
+            }
+            if (Input.GetKeyDown(_loadPlayer))
+            {
+                _saveDataRepository.Load(_player);
+            }
         }
 
         #endregion

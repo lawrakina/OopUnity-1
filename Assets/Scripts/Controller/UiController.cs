@@ -1,8 +1,7 @@
 using System;
-using System.Diagnostics;
 using Enum;
-using Healper;
 using Interface;
+using Model;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -15,10 +14,11 @@ namespace Controller
     {
         #region Fields
 
-        private UiPlay                    _ui;
-        private IIntNotifyPropertyChange       _coinCount;
-        private IIntNotifyPropertyChange       _maxCoinCount;
-        private IIntNotifyPropertyChange       _liveCount;
+        private UiPlay                         _ui;
+        private StatsModel _statsModel;
+        // private IIntNotifyPropertyChange       _coinCount;
+        // private IIntNotifyPropertyChange       _maxCoinCount;
+        // private IIntNotifyPropertyChange       _liveCount;
         private IGameStateNotifyPropertyChange _gameState;
         private GameObject                     _menuScreen;
         private GameObject                     _pauseScreen;
@@ -29,34 +29,72 @@ namespace Controller
 
         #region ClassLiveCycles
 
-        public UiController(UiPlay    ui,
-            IIntNotifyPropertyChange       coinCount,
-            IIntNotifyPropertyChange       maxCoinCount,
-            IIntNotifyPropertyChange       liveCount,
-            GameObject                     menuScreen,
-            GameObject                     pauseScreen,
-            GameObject                     endGameScreen,
+        // public UiController(UiPlay         ui,
+        //     IIntNotifyPropertyChange       coinCount,
+        //     IIntNotifyPropertyChange       maxCoinCount,
+        //     IIntNotifyPropertyChange       liveCount,
+        //     GameObject                     menuScreen,
+        //     GameObject                     pauseScreen,
+        //     GameObject                     endGameScreen,
+        //     IGameStateNotifyPropertyChange gameState)
+        // {
+        //     _ui = ui;
+        //     _coinCount = coinCount;
+        //     _maxCoinCount = maxCoinCount;
+        //     _liveCount = liveCount;
+        //     _menuScreen = menuScreen;
+        //     _pauseScreen = pauseScreen;
+        //     _endGameScreen = endGameScreen;
+        //     _gameState = gameState;
+        //
+        //     _ui.PauseButton.onClick.AddListener(EnablePause());
+        //     _menuScreen.GetComponentInChildren<Button>().onClick.AddListener(StartGame());
+        //
+        //
+        //     var saveLoadButtons = pauseScreen.GetComponentsInChildren<Button>();
+        //     saveLoadButtons[0].onClick.AddListener(SaveData());
+        //     saveLoadButtons[1].onClick.AddListener(LoadData());
+        //
+        //
+        //     _coinCount.OnValueChange += CoinCountOnValueChange;
+        //     _maxCoinCount.OnValueChange += MaxCoinCountOnValueChange;
+        //     _liveCount.OnValueChange += LiveCountOnValueChange;
+        //     _gameState.OnValueChange += GameStateOnValueChange;
+        //
+        //     ShowOneScreen(_menuScreen);
+        // }
+
+        public UiController(
+            StatsModel statsModel, 
+            UiPlay uiScreens, 
+            GameObject menuScreen, 
+            GameObject pauseScreen, 
+            GameObject endScreen, 
             IGameStateNotifyPropertyChange gameState)
         {
-            _ui = ui;
-            _coinCount = coinCount;
-            _maxCoinCount = maxCoinCount;
-            _liveCount = liveCount;
+            _ui = uiScreens;
             _menuScreen = menuScreen;
             _pauseScreen = pauseScreen;
-            _endGameScreen = endGameScreen;
+            _endGameScreen = endScreen;
             _gameState = gameState;
+            _statsModel = statsModel;
+            
+            _statsModel.CoinCount.OnValueChange += CoinCountOnValueChange;
+            _statsModel.MaxCoinCount.OnValueChange += MaxCoinCountOnValueChange;
+            _statsModel.LiveCount.OnValueChange += LiveCountOnValueChange;
+            _gameState.OnValueChange += GameStateOnValueChange;
 
             _ui.PauseButton.onClick.AddListener(EnablePause());
             _menuScreen.GetComponentInChildren<Button>().onClick.AddListener(StartGame());
-
-            _coinCount.OnValueChange += CoinCountOnValueChange;
-            _maxCoinCount.OnValueChange += MaxCoinCountOnValueChange;
-            _liveCount.OnValueChange += LiveCountOnValueChange;
-            _gameState.OnValueChange += GameStateOnValueChange;
-
+            
             ShowOneScreen(_menuScreen);
         }
+
+        private UnityAction SaveData()
+        {
+            return () => { };
+        }
+
 
         private UnityAction StartGame()
         {
@@ -139,9 +177,9 @@ namespace Controller
 
         public void Cleanup()
         {
-            _coinCount.OnValueChange -= CoinCountOnValueChange;
-            _maxCoinCount.OnValueChange -= MaxCoinCountOnValueChange;
-            _liveCount.OnValueChange -= LiveCountOnValueChange;
+            _statsModel.CoinCount.OnValueChange -= CoinCountOnValueChange;
+            _statsModel.MaxCoinCount.OnValueChange -= MaxCoinCountOnValueChange;
+            _statsModel.LiveCount.OnValueChange -= LiveCountOnValueChange;
             _gameState.OnValueChange -= GameStateOnValueChange;
         }
 

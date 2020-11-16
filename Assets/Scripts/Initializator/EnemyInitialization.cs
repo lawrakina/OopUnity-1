@@ -41,9 +41,9 @@ namespace Initializator
             
         }
 
-        public object GetEnemy()
+        public List<IEnemy> GetEnemies()
         {
-            throw new System.NotImplementedException();
+            return _enemies;
         }
     }
 }

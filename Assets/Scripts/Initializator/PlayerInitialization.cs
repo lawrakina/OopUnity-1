@@ -1,8 +1,6 @@
 using Data;
 using Interface;
-using Model;
 using Units.Player;
-using UnityEngine;
 
 
 namespace Initializator

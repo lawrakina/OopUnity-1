@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Enum;
@@ -54,6 +55,11 @@ namespace Extension
             }
 
             return result;
+        }
+        
+        public static bool TryBool(this string self)
+        {
+            return Boolean.TryParse(self, out var res) && res;
         }
     }
 }
