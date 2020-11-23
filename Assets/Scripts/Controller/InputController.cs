@@ -6,42 +6,42 @@ using UnityEngine;
 
 namespace Controller
 {
-    public sealed class InputController :IInitialization, IExecute
+    public sealed class InputController : IInitialization, IExecute
     {
-
         #region Fields
 
         private readonly IUserInputProxy _horizontal;
         private readonly IUserInputProxy _vertical;
         private readonly SaveDataRepository _saveDataRepository;
-        private readonly PlayerModel _player;
+        private PlayerModel _player;
+        private BonusesModel _bonuses;
         private readonly KeyCode _savePlayer = KeyCode.C;
         private readonly KeyCode _loadPlayer = KeyCode.V;
 
         #endregion
 
-        
+
         #region ClassLiveCycles
 
-        public InputController(
-            (IUserInputProxy inputHorizontal, IUserInputProxy inputVertical) input, 
-            SaveDataRepository saveDataRepository, 
-            PlayerModel player)
+        public InputController((IUserInputProxy inputHorizontal, IUserInputProxy inputVertical) input,
+            SaveDataRepository saveDataRepository,
+            PlayerModel player,
+            BonusesModel bonuses)
         {
             _saveDataRepository = saveDataRepository;
             _player = player;
+            _bonuses = bonuses;
             _horizontal = input.inputHorizontal;
             _vertical = input.inputVertical;
         }
 
         #endregion
 
-        
+
         public void Initialization()
         {
-            
         }
-        
+
 
         #region IExecute
 
@@ -49,20 +49,23 @@ namespace Controller
         {
             _horizontal.GetAxis();
             _vertical.GetAxis();
-            
+
             if (Input.GetKeyDown(_savePlayer))
             {
-                _saveDataRepository.Save(_player);
+                _saveDataRepository.AddToSave(_player);
+                _saveDataRepository.AddToSave(_bonuses);
+                _saveDataRepository.Save();
             }
+
             if (Input.GetKeyDown(_loadPlayer))
             {
-                _saveDataRepository.Load(_player);
+                _saveDataRepository.Load(ref _player, ref _bonuses);
             }
         }
 
         #endregion
-        
-        
+
+
         // _inputVector = new Vector3(
         //     UltimateJoystick.GetHorizontalAxis("Movement"),
         //     0.0f,

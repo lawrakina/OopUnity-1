@@ -3,6 +3,7 @@ using Enum;
 using Extension;
 using Interface;
 using UnityEngine;
+using View;
 
 
 namespace Bonus
@@ -39,30 +40,29 @@ namespace Bonus
 
         #region Methods
 
-        public Transform CreateCoins()
+        public BonusView CreateCoins()
         {
-            return CreateBonus(_bonusData.BonusStruct.StorageCoin, InteractiveObjectType.Coin, 1).transform;
+            return CreateBonus(_bonusData.BonusStruct.StorageCoin, InteractiveObjectType.Coin, 1);
         }
 
-        public Transform CreateLive()
+        public BonusView CreateLive()
         {
-            return CreateBonus(_bonusData.BonusStruct.StorageLive, InteractiveObjectType.ExtraLive, 1).transform;
+            return CreateBonus(_bonusData.BonusStruct.StorageLive, InteractiveObjectType.ExtraLive, 1);
         }
 
-        public Transform CreateBomb()
+        public BonusView CreateBomb()
         {
-            return CreateBonus(_bonusData.BonusStruct.StorageBonusBomb, InteractiveObjectType.Bomb, 1).transform;
+            return CreateBonus(_bonusData.BonusStruct.StorageBonusBomb, InteractiveObjectType.Bomb, 1);
         }
 
-        public Transform CreateImmunity()
+        public BonusView CreateImmunity()
         {
-            return CreateBonus(_bonusData.BonusStruct.StorageBonusImmunity, InteractiveObjectType.Immunitet, 5)
-                .transform;
+            return CreateBonus(_bonusData.BonusStruct.StorageBonusImmunity, InteractiveObjectType.Immunitet, 5);
         }
 
-        public Transform CreateSpeedUp()
+        public BonusView CreateSpeedUp()
         {
-            return CreateBonus(_bonusData.BonusStruct.StorageBonusSpeedUp, InteractiveObjectType.SpeedUp, 2).transform;
+            return CreateBonus(_bonusData.BonusStruct.StorageBonusSpeedUp, InteractiveObjectType.SpeedUp, 2);
         }
 
         #endregion
@@ -70,13 +70,13 @@ namespace Bonus
 
         #region privateMethods
 
-        private static GameObject CreateBonus(GameObject prototype, InteractiveObjectType type, int value)
+        private static BonusView CreateBonus(GameObject prototype, InteractiveObjectType type, int value)
         {
             var bonus = Object.Instantiate(prototype);
             bonus.name = prototype.name;
-            bonus.AddSphereCollider(radius: 1.5f, isTrigger : true)
-                .AddBonusView(type: type, value: value);
-            return bonus;
+            bonus.AddSphereCollider(radius: 1.5f, isTrigger : true);
+            var result = bonus.AddBonusView(type: type, value: value);
+            return result;
         }
 
         #endregion

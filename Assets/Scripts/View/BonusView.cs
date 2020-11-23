@@ -14,6 +14,8 @@ namespace View
         [SerializeField] private InteractiveObjectType _interactiveObjectType;
         [SerializeField] private int                   _value;
 
+        public InteractiveObjectType ObjectType => _interactiveObjectType;
+
         #endregion
 
         public void Init(InteractiveObjectType type, int value)
@@ -28,7 +30,7 @@ namespace View
             {
                 var info = new InfoCollision
                 {
-                    ObjectType = _interactiveObjectType,
+                    ObjectType = ObjectType,
                     Value = _value,
                     OtherName = gameObject.name
                 };

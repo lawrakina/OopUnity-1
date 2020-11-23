@@ -32,12 +32,12 @@ namespace Extension
             component.isTrigger = isTrigger;
             return gameObject;
         }
-
-        public static GameObject AddBonusView(this GameObject gameObject, InteractiveObjectType type, int value)
+        
+        public static BonusView AddBonusView(this GameObject gameObject, InteractiveObjectType type, int value)
         {
             var component = gameObject.GetOrAddComponent<BonusView>();
             component.Init(type, value);
-            return gameObject;
+            return component;
         }
 
         public static GameObject AddCode<T>(this GameObject gameObject) where T : Component

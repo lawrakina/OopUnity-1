@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Bonus;
 using Interface;
 using UnityEngine;
+using View;
 
 
 namespace Initializator
@@ -13,7 +14,7 @@ namespace Initializator
 
         private readonly BonusFactory    _bonusFactory;
         private readonly TerrainManager  _terrainManager;
-        private          List<Transform> _listBonuses = new List<Transform>();
+        private          List<BonusView> _listBonuses = new List<BonusView>();
 
         #endregion
 
@@ -25,11 +26,11 @@ namespace Initializator
             _bonusFactory = bonusFactory;
             _terrainManager = terrainManager;
 
-            InstantiateBonus(_bonusFactory.CreateCoins, _bonusFactory.CountCoins);
-            InstantiateBonus(_bonusFactory.CreateBomb, _bonusFactory.CountBombs);
-            InstantiateBonus(_bonusFactory.CreateImmunity, _bonusFactory.CountImmunity);
-            InstantiateBonus(_bonusFactory.CreateLive, _bonusFactory.CountExtraLive);
-            InstantiateBonus(_bonusFactory.CreateSpeedUp, _bonusFactory.CountSpeedUp);
+            InstantiateBonus(() => _bonusFactory.CreateCoins(), _bonusFactory.CountCoins);
+            InstantiateBonus(() => _bonusFactory.CreateBomb(), _bonusFactory.CountBombs);
+            InstantiateBonus(() => _bonusFactory.CreateImmunity(), _bonusFactory.CountImmunity);
+            InstantiateBonus(() => _bonusFactory.CreateLive(), _bonusFactory.CountExtraLive);
+            InstantiateBonus(() => _bonusFactory.CreateSpeedUp(), _bonusFactory.CountSpeedUp);
         }
         
         public void Initialization()
@@ -42,16 +43,21 @@ namespace Initializator
 
         #region privateMethods
 
-        private void InstantiateBonus(Func<Transform> createFromFactory, int count)
+        private void InstantiateBonus(Func<BonusView> createFromFactory, int count)
         {
             for (int i = 0; i < count; i++)
             {
                 var item = createFromFactory();
-                item.position = _terrainManager.GeneratePoint();
+                item.transform.position = _terrainManager.GeneratePoint();
                 _listBonuses.Add(item);
             }
         }
 
         #endregion
+
+        public List<BonusView> AllBonuses()
+        {
+            return _listBonuses;
+        }
     }
 }

@@ -63,6 +63,8 @@ namespace Controller
             var enemies = new EnemiesModel(
                 enemyInitialization.GetEnemies()
             );
+            var bonuses = new BonusesModel(
+                bonusInitialization.AllBonuses());
 
             _controllers = new Controllers();
             _controllers.Add(inputInitialization);
@@ -72,7 +74,8 @@ namespace Controller
             _controllers.Add(new InputController(
                 inputInitialization.GetInput(),
                 saveDataRepository,
-                player
+                player,
+                bonuses
             ));
             _controllers.Add(new MoveController(
                 inputInitialization.GetInput(),
